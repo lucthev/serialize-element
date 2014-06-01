@@ -12,7 +12,7 @@ var paths = {
 }
 
 gulp.task('js', function () {
-  gulp.src('src/Serialize.js')
+  gulp.src('src/serialize.js')
     .pipe(browserify({
       standalone: 'Serialize'
     }))
