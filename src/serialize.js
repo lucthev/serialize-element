@@ -2,7 +2,8 @@
 
 var serializeInline = require('./inline').serializeInline,
     mergeAdjacent = require('./adjacent'),
-    applyMarkup = require('./applyMarkup')
+    applyMarkup = require('./applyMarkup'),
+    replaceNewlines = require('./replaceNewlines')
 
 /**
  * Serialize(elem) converts the given element to an abstract,
@@ -31,6 +32,15 @@ function Serialize (elem) {
 
   while (node) {
     if (node.nodeType === Node.ELEMENT_NODE) {
+
+      // <br>s are interpreted as newlines.
+      if (node.nodeName === 'BR') {
+        this.length += 1
+        this.text += '\n'
+
+        node = node.nextSibling
+        continue
+      }
 
       // If the element has no children, we just ignore it.
       if (!node.firstChild) {
@@ -153,6 +163,8 @@ Serialize.prototype.toElement = function () {
   this.markups.forEach(function (markup) {
     applyMarkup(elem, markup)
   })
+
+  replaceNewlines(elem)
 
   // Remove possible empty text nodes (is this necessary?)
   elem.normalize()

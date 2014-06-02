@@ -2,12 +2,7 @@
 
 'use strict';
 
-var Types = {
-  link: 1,
-  code: 2,
-  bold: 3,
-  italic: 4
-}
+var Types = Serialize.types
 
 describe('Serialize', function () {
 
@@ -219,6 +214,40 @@ describe('Serialize', function () {
         end: 21
       }])
     })
+
+    it('should treat <br>s as newlines.', function () {
+      this.elem.innerHTML = 'One<br>two'
+
+      var result = new Serialize(this.elem)
+
+      expect(result.length).toEqual(7)
+      expect(result.text).toEqual('One\ntwo')
+      expect(result.markups).toEqual([])
+    })
+
+    it('should treat <br>s as newlines (2).', function () {
+      this.elem.innerHTML = '<strong>One<br>two</strong>'
+
+      var result = new Serialize(this.elem)
+
+      expect(result.length).toEqual(7)
+      expect(result.text).toEqual('One\ntwo')
+      expect(result.markups).toEqual([{
+        type: Types.bold,
+        start: 0,
+        end: 7
+      }])
+    })
+
+    it('should treat <br>s as newlines (3).', function () {
+      this.elem.innerHTML = 'One<br>two<br>three<br>'
+
+      var result = new Serialize(this.elem)
+
+      expect(result.length).toEqual(14)
+      expect(result.text).toEqual('One\ntwo\nthree\n')
+      expect(result.markups).toEqual([])
+    })
   })
 
   describe('Serialize#toElement', function () {
@@ -325,6 +354,72 @@ describe('Serialize', function () {
           goodHTML = 'Éducat<a href="/somewhere"><code><em>ion nat</em></code></a>ionale'
 
       this.elem.innerHTML = badHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines.', function () {
+      var goodHTML = 'One<br>two'
+
+      this.elem.innerHTML = goodHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines (2).', function () {
+      var goodHTML = '<strong>One<br>two</strong>'
+
+      this.elem.innerHTML = goodHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines (3).', function () {
+      var goodHTML = '<strong>One</strong><br><strong>two</strong>'
+
+      this.elem.innerHTML = goodHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines (4).', function () {
+      var goodHTML = '<br><em>I walked</em> the long <strong>path</strong>'
+
+      this.elem.innerHTML = goodHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines (5).', function () {
+      var goodHTML = '<code>alone</code>, my feet hurt.<br>'
+
+      this.elem.innerHTML = goodHTML
+
+      var result = new Serialize(this.elem),
+          elem = result.toElement()
+
+      expect(elem.innerHTML).toEqual(goodHTML)
+    })
+
+    it('should treat <br>s as newlines (6).', function () {
+      var goodHTML = 'One<br>two<br>three<br>'
+
+      this.elem.innerHTML = goodHTML
 
       var result = new Serialize(this.elem),
           elem = result.toElement()
