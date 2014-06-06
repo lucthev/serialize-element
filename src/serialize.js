@@ -37,9 +37,6 @@ function Serialize (elem) {
       if (node.nodeName === 'BR') {
         this.length += 1
         this.text += '\n'
-
-        node = node.nextSibling
-        continue
       }
 
       // If the element has no children, we just ignore it.
