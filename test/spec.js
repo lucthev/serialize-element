@@ -123,6 +123,20 @@ describe('Serialize', function () {
       expect(result.markups).toEqual([])
     })
 
+    it('should ignore empty elements (2).', function () {
+      this.elem.innerHTML = 'while <em>I<span></span></em> pondered, weak and weary'
+
+      var result = new Serialize(this.elem)
+
+      expect(result.length).toEqual(32)
+      expect(result.text).toEqual('while I pondered, weak and weary')
+      expect(result.markups).toEqual([{
+        type: Types.italic,
+        start: 6,
+        end: 7
+      }])
+    })
+
     it('should work with multiple markups on the same element.', function () {
       this.elem.innerHTML = 'Blue <a href="/" style="font-weight: bold; font-style: italic">is not</a> red'
 

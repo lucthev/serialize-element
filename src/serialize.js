@@ -44,6 +44,23 @@ function Serialize (elem) {
 
       // If the element has no children, we just ignore it.
       if (!node.firstChild) {
+
+        // But we still have to account for the possibility it's the
+        // last element.
+        while (!node.nextSibling) {
+          if (!depth) break
+
+          info = children.pop()
+          for (i = 0; i < info.length; i += 1)
+            info[i].end = this.length
+
+          this.addMarkups(info)
+
+          depth -= 1
+
+          node = node.parentNode
+        }
+
         node = node.nextSibling
         continue
       }
