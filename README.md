@@ -2,6 +2,12 @@
 
 Serialize an element into an abstract, JSON-ifiable object and back again.
 
+## Installation
+
+```
+$ npm install serialize-elem
+```
+
 ## Use cases
 
 Text editing. If you find another use for it, let me know.
