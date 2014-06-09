@@ -55,6 +55,58 @@ Merges adjacent or overlapping markups of the same type. If you've recently adde
 
 Return a new element resembling the one that was serialized.
 
+### serialization.replace( pattern, substr )
+
+Works like [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace). Returns the context, to allow for chaining.
+
+If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
+
+```html
+<p>One..<em>. two</em></p>
+```
+
+This gets serialized as:
+
+```js
+{
+    type: 'p',
+    text: 'One... two',
+    length: 10,
+    markups: [{
+        type: Serialize.types.italic,
+        start: 5,
+        end: 10
+    }]
+}
+```
+
+Replacing adjacent periods with ellipses by calling
+
+```js
+.replace(/\.\.\./, '…')
+```
+
+on this serialization results in the following:
+
+```js
+{
+    type: 'p',
+    text: 'One… two',
+    length: 8,
+    markups: [{
+        type: Serialize.types.italic,
+        start: 4,
+        end: 8
+    }]
+}
+```
+
+which, when converted back to en element, will look like:
+
+```html
+<p>One…<em> two</em></p>
+```
+
 ### Serialize.fromJSON( )
 
 If you have previously `JSON.stringify`’d a serialization, you can get convert it to a “live” instance of Serialize by using this method.
