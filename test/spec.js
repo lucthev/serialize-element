@@ -1212,6 +1212,108 @@ describe('Serialize', function () {
         end: 7
       }])
     })
+
+    it('can take a standard replace function.', function () {
+      this.elem.innerHTML = '...'
+
+      var result = new Serialize(this.elem),
+          index = 0
+
+      result.replace(/\.\.\./g, function (match, pos) {
+        if (index > pos && index < pos + match.length)
+          return match
+        else
+          return '…'
+      })
+
+      expect(result.length).toEqual(1)
+      expect(result.text).toEqual('…')
+      expect(result.markups).toEqual([])
+    })
+
+    it('can take a standard replace function (2).', function () {
+      this.elem.innerHTML = '...'
+
+      var result = new Serialize(this.elem),
+          index = 2
+
+      result.replace(/\.\.\./g, function (match, pos) {
+        if (index > pos && index < pos + match.length)
+          return match
+        else
+          return '…'
+      })
+
+      expect(result.length).toEqual(3)
+      expect(result.text).toEqual('...')
+      expect(result.markups).toEqual([])
+    })
+
+    it('can take a standard replace function (3).', function () {
+      this.elem.innerHTML = '<b>..</b>.'
+
+      var result = new Serialize(this.elem),
+          index = 2
+
+      result.replace(/\.\.\./g, function (match, pos) {
+        if (index > pos && index < pos + match.length)
+          return false
+        else
+          return '…'
+      })
+
+      expect(result.length).toEqual(3)
+      expect(result.text).toEqual('...')
+      expect(result.markups).toEqual([{
+        type: Types.bold,
+        start: 0,
+        end: 2
+      }])
+    })
+
+    it('can take a standard replace function (4).', function () {
+      this.elem.innerHTML = '<b>..</b>.'
+
+      var result = new Serialize(this.elem),
+          index = 3
+
+      result.replace(/\.\.\./g, function (match, pos) {
+        if (index > pos && index < pos + match.length)
+          return match
+        else
+          return '…'
+      })
+
+      expect(result.length).toEqual(1)
+      expect(result.text).toEqual('…')
+      expect(result.markups).toEqual([])
+    })
+
+    it('can take a standard replace function (5).', function () {
+      this.elem.innerHTML = 'a<code>...b...</code>c...d'
+
+      var result = new Serialize(this.elem),
+          index = 11,
+          shift = 0
+
+      result.replace(/\.\.\./g, function (match, pos) {
+        if (index > pos && index < pos + match.length)
+          return match
+        else {
+          if (pos < index) shift -= match.length - '…'.length
+          return '…'
+        }
+      })
+
+      expect(shift).toEqual(-4)
+      expect(result.length).toEqual(9)
+      expect(result.text).toEqual('a…b…c...d')
+      expect(result.markups).toEqual([{
+        type: Types.code,
+        start: 1,
+        end: 4
+      }])
+    })
   })
 
   describe('Serialize.fromJSON', function () {

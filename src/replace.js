@@ -15,10 +15,13 @@ function contained (min, max, n) {
 
 /**
  * replace(match, str, index) replaces all occurences of 'match' in a
- * serialization with substr, updating markups as appropriate.
+ * serialization with the string 'substr', updating markups as appropriate.
+ * 'substr' can also be a String#replace-appropriate function, with a
+ * minor difference: if that function returns false, or returns a string
+ * identical to the match, however, the markups will not be affected.
  *
  * @param {RegExp} match
- * @param {String} substr
+ * @param {String || Function} substr
  * @return {Context}
  */
 function replace (match, substr) {
@@ -28,13 +31,24 @@ function replace (match, substr) {
     var index = arguments[arguments.length - 2],
         difference,
         markup,
+        str,
         i
+
+    if (typeof substr === 'function') {
+      str = substr.apply(null, Array.prototype.slice.call(arguments))
+
+      // If the function returns false or a string identical to match,
+      // we take no action.
+      if (str === false || str === match)
+        return match
+
+    } else str = substr
 
     // Account for the fact that the length of the text may have already
     // been changed by a previous replace.
     index -= replaced
 
-    difference = match.length - substr.length
+    difference = match.length - str.length
     replaced += difference
 
     // Update all markups.
@@ -42,7 +56,7 @@ function replace (match, substr) {
       markup = this.markups[i]
 
       if (contained(index, index + match.length, markup.start))
-        markup.start = index + substr.length
+        markup.start = index + str.length
       else if (markup.start > index)
         markup.start -= difference
 
@@ -59,7 +73,7 @@ function replace (match, substr) {
         this.markups[i] = markup
     }
 
-    return substr
+    return str
   }.bind(this))
 
   // Just recalculate the new length afterwards.
