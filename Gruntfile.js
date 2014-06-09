@@ -4,11 +4,9 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
     jasmine: {
       test: {
-        src: 'dist/<%= pkg.name %>.min.js',
+        src: 'dist/serialize.min.js',
         options: {
           specs: 'test/spec.js',
           keepRunner: true
