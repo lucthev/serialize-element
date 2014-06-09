@@ -165,6 +165,21 @@ Serialize.prototype.mergeAdjacent = function () {
 }
 
 /**
+ * replace(match, str, index) replaces all occurences of 'match' in a
+ * serialization with substr, returning in integer indicating the difference
+ * in the length of text before index (positive or negative). For example,
+ * suppose a serialization had the text 'It was... red'. Then
+ *
+ * replace(/\.\.\./g, '…', 9) === 2 // true
+ *
+ * @param {RegExp} match
+ * @param {String} substr
+ * @param {Int >= 0} index
+ * @return {Int}
+ */
+Serialize.prototype.replace = require('./replace')
+
+/**
  * Serialize#toElement() converts a serialization back to an element.
  *
  * @return {Element}
