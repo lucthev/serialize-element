@@ -1314,6 +1314,27 @@ describe('Serialize', function () {
         end: 4
       }])
     })
+
+    it('should not get tripped up by matching RegExes.', function () {
+      this.elem.innerHTML = '11"2 and things.'
+
+      var result = new Serialize(this.elem),
+          matched = false
+
+      result.replace(/(\d)['"](\d)?/g, function (match, digit, after, pos) {
+        matched = true
+
+        expect(digit).toEqual('1')
+        expect(after).toEqual('2')
+        expect(pos).toEqual(1)
+        return digit + '″' + after
+      })
+
+      expect(matched).toBe(true)
+      expect(result.length).toEqual(16)
+      expect(result.text).toEqual('11″2 and things.')
+      expect(result.markups).toEqual([])
+    })
   })
 
   describe('Serialize.fromJSON', function () {
