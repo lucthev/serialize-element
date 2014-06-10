@@ -1,6 +1,6 @@
 {
   "name": "serialize-elem",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Serialize elements to abstract, JSON-ifiable objects.",
   "main": "dist/serialize.min.js",
   "scripts": {

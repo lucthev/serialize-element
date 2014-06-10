@@ -203,7 +203,7 @@ Serialize.prototype.toElement = function () {
 
 /**
  * Serialize.fromJSON(json) converts a stringified serialization to
- * a 'live' one.
+ * a 'live' one. The only mandatory properties are text and type.
  *
  * @param {String} json
  * @return {Serialize}
@@ -212,10 +212,14 @@ Serialize.fromJSON = function (json) {
   var result = JSON.parse(json),
       serialization = new this(document.createElement('p'))
 
-  // Just overwrite properties with the parsed ones.
-  Object.keys(result).forEach(function (key) {
-    serialization[key] = result[key]
-  })
+  if (typeof result.text !== 'string' || !result.type)
+    throw new Error('Invalid serialization.')
+
+  // Overwrite properties with the parsed ones.
+  serialization.type = result.type
+  serialization.text = result.text
+  serialization.length = result.length || result.text.length
+  serialization.markups = result.markups || []
 
   return serialization
 }
