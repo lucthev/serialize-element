@@ -3,7 +3,8 @@
 var serializeInline = require('./inline').serializeInline,
     mergeAdjacent = require('./adjacent'),
     applyMarkup = require('./applyMarkup'),
-    replaceNewlines = require('./replaceNewlines')
+    replaceNewlines = require('./replaceNewlines'),
+    replaceStr = require('./replace')
 
 /**
  * Serialize(elem) converts the given element to an abstract,
@@ -166,18 +167,16 @@ Serialize.prototype.mergeAdjacent = function () {
 
 /**
  * replace(match, str, index) replaces all occurences of 'match' in a
- * serialization with substr, returning in integer indicating the difference
- * in the length of text before index (positive or negative). For example,
- * suppose a serialization had the text 'It was... red'. Then
- *
- * replace(/\.\.\./g, '…', 9) === 2 // true
+ * serialization with the string 'substr', updating markups as appropriate.
+ * 'substr' can also be a String#replace appropriate function, with a
+ * minor difference: if that function returns false, or returns a string
+ * identical to the match, however, the markups will not be affected.
  *
  * @param {RegExp} match
- * @param {String} substr
- * @param {Int >= 0} index
- * @return {Int}
+ * @param {String || Function} substr
+ * @return {Context}
  */
-Serialize.prototype.replace = require('./replace')
+Serialize.prototype.replace = replaceStr
 
 /**
  * Serialize#toElement() converts a serialization back to an element.
@@ -204,6 +203,7 @@ Serialize.prototype.toElement = function () {
 /**
  * Serialize.fromJSON(json) converts a stringified serialization to
  * a 'live' one. The only mandatory properties are text and type.
+ * Markups will default to empty.
  *
  * @param {String} json
  * @return {Serialize}
@@ -224,7 +224,7 @@ Serialize.fromJSON = function (json) {
   return serialization
 }
 
-// Expose the type codes.
+// Expose the type identifiers.
 Serialize.types = require('./types')
 
 module.exports = Serialize

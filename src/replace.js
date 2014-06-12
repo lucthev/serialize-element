@@ -16,7 +16,7 @@ function contained (min, max, n) {
 /**
  * replace(match, str, index) replaces all occurences of 'match' in a
  * serialization with the string 'substr', updating markups as appropriate.
- * 'substr' can also be a String#replace-appropriate function, with a
+ * 'substr' can also be a String#replace appropriate function, with a
  * minor difference: if that function returns false, or returns a string
  * identical to the match, however, the markups will not be affected.
  *
