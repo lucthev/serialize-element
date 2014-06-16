@@ -178,6 +178,58 @@ Serialize.prototype.mergeAdjacent = function () {
  */
 Serialize.prototype.replace = replaceStr
 
+Serialize.prototype.substr = function (start, length) {
+  var substr = new Serialize(document.createElement(this.type)),
+      markup,
+      end,
+      i
+
+  if (!this.length || length <= 0)
+    return substr
+
+  while (start < 0)
+    start = this.length + start
+
+  if (typeof length === 'undefined' || start + length > this.length)
+    length = this.length - start
+
+  end = start + length
+
+  substr.text = this.text.substr(start, length)
+  substr.length = length
+
+  for (i = 0; i < this.markups.length; i += 1) {
+    markup = this.markups[i]
+
+    if (markup.start < end && markup.end > start) {
+      substr._addMarkup({
+        type: markup.type,
+        start: markup.start > start ? markup.start - start : 0,
+        end: markup.end < end ? markup.end - start : end - start
+      })
+    }
+  }
+
+  return substr
+}
+
+Serialize.prototype.substring = function (start, end) {
+  var temp
+
+  if (end < start) {
+    temp = start
+    start = end
+    end = temp
+  }
+
+  if (start < 0) start = 0
+  if (end < 0) end = 0
+
+  if (typeof end === 'undefined') end = this.length
+
+  return this.substr(start, end - start)
+}
+
 /**
  * Serialize#toElement() converts a serialization back to an element.
  *
@@ -215,7 +267,6 @@ Serialize.fromJSON = function (json) {
   if (typeof result.text !== 'string' || !result.type)
     throw new Error('Invalid serialization.')
 
-  // Overwrite properties with the parsed ones.
   serialization.type = result.type
   serialization.text = result.text
   serialization.length = result.length || result.text.length

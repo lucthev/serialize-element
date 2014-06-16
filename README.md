@@ -8,9 +8,9 @@ Serialize an element into an abstract, JSON-ifiable object and back again.
 $ npm install serialize-elem
 ```
 
-## Use cases
+## Motivation
 
-Text editing. If you find another use for it, let me know.
+Serialize's primary use case is in-browser rich text editing. The tree structure of HTML documents can be a pain to work with. Serialize aims to absctract away some of the difficulties by focusing on the text; inline elements are stored as abstract markups that are applied to the text. A subset of [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) methods are available as well, to be able to manipulate serialized block elements as you would normally with plain text.
 
 ## API
 
@@ -41,7 +41,7 @@ gets converted to:
 }
 ```
 
-Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and various italic and bold types (elements, like `<b>`, `<strong>`, etc, but also other elements with, say, `style="font-weight: bold"`) are supported.
+Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and various italic and bold types (elements, like `<b>`, `<strong>`, etc, but also other elements with, say, `style="font-weight: bold"`) are supported. If you need to support a broader range of inline elements, adding support is trivial.
 
 ### serialization.addMarkups( markups )
 
@@ -106,6 +106,14 @@ which, when converted back to en element, will look like:
 ```html
 <p>One…<em> two</em></p>
 ```
+
+### serialization.substr( start [, length] )
+
+Works the same as [`String.substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr). Returns a __new__ serialization representing the extracting substring, complete with the appropriate markups.
+
+### serialization.substring( start [, end] )
+
+Like [`String.substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring). Returns a __new__ serialization.
 
 ### Serialize.fromJSON( )
 

@@ -9,6 +9,8 @@ module.exports = function (grunt) {
         src: 'dist/serialize.min.js',
         options: {
           specs: 'test/spec.js',
+          display: 'short',
+          summary: true,
           keepRunner: true
         }
       }
