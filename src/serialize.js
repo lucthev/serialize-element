@@ -178,6 +178,14 @@ Serialize.prototype.mergeAdjacent = function () {
  */
 Serialize.prototype.replace = replaceStr
 
+/**
+ * substr(start, length) works like String#substr, returning a new
+ * serialization with the appropriate markups.
+ *
+ * @param {Int} start
+ * @param {Int} length
+ * @return {Serialize}
+ */
 Serialize.prototype.substr = function (start, length) {
   var substr = new Serialize(document.createElement(this.type)),
       markup,
@@ -213,6 +221,14 @@ Serialize.prototype.substr = function (start, length) {
   return substr
 }
 
+/**
+ * substring(start, end) works like String#substring, returning a new
+ * serialization with the appropriate markups.
+ *
+ * @param {Int} start
+ * @param {Int} end
+ * @return {Serialize}
+ */
 Serialize.prototype.substring = function (start, end) {
   var temp
 
