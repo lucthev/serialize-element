@@ -247,6 +247,54 @@ Serialize.prototype.substring = function (start, end) {
 }
 
 /**
+ * append(serialization) concatenates two serializations. It's like the
+ * '+' operator for strings. Returns a new serialization.
+ *
+ * @param {Serialize} serialization
+ * @return {Serialize}
+ */
+Serialize.prototype.append = function (toAdd) {
+  var serialization,
+      newMarkup,
+      markup,
+      i
+
+  if (!toAdd) return
+
+  serialization = new Serialize(document.createElement(this.type))
+  serialization.length = this.length + toAdd.length
+  serialization.text = this.text + toAdd.text
+
+  for (i = 0; i < this.markups.length; i += 1) {
+    markup = this.markups[i]
+
+    newMarkup = {
+      type: markup.type,
+      start: markup.start,
+      end: markup.end
+    }
+
+    serialization._addMarkup(newMarkup)
+  }
+
+  for (i = 0; i < toAdd.markups.length; i += 1) {
+    markup = toAdd.markups[i]
+
+    newMarkup = {
+      type: markup.type,
+      start: markup.start + this.length,
+      end: markup.end + this.length
+    }
+
+    serialization._addMarkup(newMarkup)
+  }
+
+  serialization.mergeAdjacent()
+
+  return serialization
+}
+
+/**
  * Serialize#toElement() converts a serialization back to an element.
  *
  * @return {Element}

@@ -1,6 +1,6 @@
 # Serialize
 
-Serialize an element into an abstract, JSON-ifiable object and back again.
+Manipulate block elements as if they were text.
 
 ## Installation
 
@@ -10,7 +10,7 @@ $ npm install serialize-elem
 
 ## Motivation
 
-Serialize's primary use case is in-browser rich text editing. The tree structure of HTML documents can be a pain to work with. Serialize aims to absctract away some of the difficulties by focusing on the text; inline elements are stored as abstract markups that are applied to the text. A subset of [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) methods are available as well, to be able to manipulate serialized block elements as you would normally with plain text.
+Serialize's primary use case is in-browser rich text editing. The tree structure of HTML documents can be a pain to work with; Serialize aims to absctract away some of the difficulties by allowing you to manipulate block elements as if they were text. Inline stylings are stored as markups that can be applied to the text.
 
 ## API
 
@@ -57,9 +57,11 @@ Return a new element resembling the one that was serialized.
 
 ### serialization.replace( pattern, substr )
 
-Works like [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace). Returns the context, to allow for chaining.
+Works like [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace).
 
 If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
+
+__Note__: unlike [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), `Serialize#replace` does __not__ returns a new serialization; rather, it mutates the existing serialization. It returns the context to allow chaining.
 
 ```html
 <p>One..<em>. two</em></p>
@@ -109,11 +111,22 @@ which, when converted back to en element, will look like:
 
 ### serialization.substr( start [, length] )
 
-Works the same as [`String.substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr). Returns a __new__ serialization representing the extracting substring, complete with the appropriate markups.
+Works the same as [`String#substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr). Returns a new serialization representing the extracting substring, complete with the appropriate markups.
 
 ### serialization.substring( start [, end] )
 
-Like [`String.substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring). Returns a __new__ serialization.
+Like [`String#substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring). Returns a new serialization.
+
+### serialization.append( other )
+
+Returns a new serialization which results from appending the serialization `other` to the serialization this method was called upon. If we’re comparing serializations to text:
+
+```js
+var result = serialization.append(other)
+
+// Is similar to:
+var result = string + otherString
+```
 
 ### Serialize.fromJSON( )
 

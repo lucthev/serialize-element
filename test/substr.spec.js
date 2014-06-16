@@ -5,6 +5,7 @@
 var Types = Serialize.types
 
 describe('Serialize#substr', function () {
+
   beforeEach(function () {
     this.elem = document.createElement('h2')
 
