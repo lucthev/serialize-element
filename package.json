@@ -1,8 +1,13 @@
 {
   "name": "serialize-elem",
-  "version": "0.2.0",
-  "description": "Serialize elements to abstract, JSON-ifiable objects.",
+  "version": "0.3.0",
+  "description": "Manipulate block elements as if they were text.",
   "main": "dist/serialize.min.js",
+  "keywords": [
+    "serialize",
+    "element",
+    "text",
+    "editing"],
   "scripts": {
     "test": "npm run js && ./node_modules/.bin/grunt",
     "js": "./node_modules/.bin/gulp",
