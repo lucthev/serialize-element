@@ -59,9 +59,9 @@ Return a new element resembling the one that was serialized.
 
 Works like [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace).
 
-If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
-
 __Note__: unlike [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), `Serialize#replace` does __not__ returns a new serialization; rather, it mutates the existing serialization. It returns the context to allow chaining.
+
+If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
 
 ```html
 <p>One..<em>. two</em></p>
