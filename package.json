@@ -1,13 +1,14 @@
 {
   "name": "serialize-elem",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Manipulate block elements as if they were text.",
-  "main": "dist/serialize.min.js",
+  "main": "src/serialize.js",
   "keywords": [
     "serialize",
     "element",
     "text",
-    "editing"],
+    "editing"
+  ],
   "scripts": {
     "test": "npm run js && ./node_modules/.bin/grunt",
     "js": "./node_modules/.bin/gulp",
