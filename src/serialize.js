@@ -317,6 +317,28 @@ Serialize.prototype.toElement = function () {
 }
 
 /**
+ * Serialize.fromText(text, tag) creates a serialization with the
+ * given text, optionally with a type 'tag'. 'tag' defaults to 'p'.
+ * Returns a serialization with no markups.
+ *
+ * @param {String} text
+ * @param {String} tag
+ * @return {Serialize}
+ */
+Serialize.fromText = function (text, tag) {
+  var serialization
+
+  tag = tag || 'p'
+  serialization = new this(document.createElement(tag))
+
+  // Other properties will already be as we want them.
+  serialization.text = text
+  serialization.length = text.length
+
+  return serialization
+}
+
+/**
  * Serialize.fromJSON(json) converts a stringified serialization to
  * a 'live' one. The only mandatory properties are text and type.
  * Markups will default to empty.
@@ -329,7 +351,7 @@ Serialize.fromJSON = function (json) {
       serialization = new this(document.createElement('p'))
 
   if (typeof result.text !== 'string' || !result.type)
-    throw new Error('Invalid serialization.')
+    throw new Error('Invalid JSON serialization.')
 
   serialization.type = result.type
   serialization.text = result.text

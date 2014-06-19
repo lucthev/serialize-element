@@ -57,9 +57,9 @@ Return a new element resembling the one that was serialized.
 
 ### serialization.replace( pattern, substr )
 
-Works like [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace) on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace).
+Works like [`String#replace`][replace] on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`][replace].
 
-__Note__: unlike [`String#replace`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace), `Serialize#replace` does __not__ returns a new serialization; rather, it mutates the existing serialization. It returns the context to allow chaining.
+__Note__: unlike [`String#replace`][replace], `Serialize#replace` does __not__ returns a new serialization; rather, it mutates the existing serialization. It returns the context to allow chaining.
 
 If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
 
@@ -111,11 +111,11 @@ which, when converted back to en element, will look like:
 
 ### serialization.substr( start [, length] )
 
-Works the same as [`String#substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr). Returns a new serialization representing the extracting substring, complete with the appropriate markups.
+Works the same as [`String#substr`][substr]. Returns a new serialization representing the extracting substring, complete with the appropriate markups.
 
 ### serialization.substring( start [, end] )
 
-Like [`String#substr`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring). Returns a new serialization.
+Like [`String#substr`][substr]. Returns a new serialization.
 
 ### serialization.append( other )
 
@@ -128,6 +128,10 @@ var result = serialization.append(other)
 var result = string + otherString
 ```
 
+### Serialize.fromText( text )
+
+Creates a serialization with the given text. The serialization will have no markups.
+
 ### Serialize.fromJSON( )
 
 If you have previously `JSON.stringify`’d a serialization, you can get convert it to a “live” instance of Serialize by using this method.
@@ -135,3 +139,6 @@ If you have previously `JSON.stringify`’d a serialization, you can get convert
 ## License
 
 MIT.
+
+[replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
+[substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring

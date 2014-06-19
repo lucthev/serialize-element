@@ -286,4 +286,18 @@ describe('Serialize', function () {
         .toEqual(result)
     })
   })
+
+  describe('Serialize.fromText', function () {
+
+    it('creates a serialization from a string.', function () {
+      var str = 'Stuff'
+
+      this.elem.innerHTML = str
+
+      var result = new Serialize(this.elem)
+
+      expect(Serialize.fromText(str))
+        .toEqual(result)
+    })
+  })
 })
