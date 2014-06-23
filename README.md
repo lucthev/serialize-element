@@ -111,11 +111,11 @@ which, when converted back to en element, will look like:
 
 ### serialization.substr( start [, length] )
 
-Works the same as [`String#substr`][substr]. Returns a new serialization representing the extracting substring, complete with the appropriate markups.
+Works the same as [`String#substr`][substr]. Returns a new serialization representing the duplicated substring, complete with the appropriate markups.
 
 ### serialization.substring( start [, end] )
 
-Like [`String#substr`][substr]. Returns a new serialization.
+Like [`String#substring`][substring]. Returns a new serialization.
 
 ### serialization.append( other )
 
@@ -142,3 +142,4 @@ MIT.
 
 [replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 [substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+[substring]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/substring
