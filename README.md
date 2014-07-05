@@ -128,13 +128,24 @@ var result = serialization.append(other)
 var result = string + otherString
 ```
 
+### serialization.equals( other )
+
+Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements with calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `==(=)` operator.
+
+```js
+var areSame = serialization.equals(other)
+
+// Is like:
+var areSame = string === otherString
+```
+
 ### Serialize.fromText( text )
 
-Creates a serialization with the given text. The serialization will have no markups.
+Creates a serialization with the given String. The serialization will have no markups.
 
 ### Serialize.fromJSON( )
 
-If you have previously `JSON.stringify`’d a serialization, you can get convert it to a “live” instance of Serialize by using this method.
+If you have previously `JSON.stringify`’d a serialization, you can convert it to a “live” instance of Serialize by using this method.
 
 ## License
 
@@ -143,3 +154,4 @@ MIT.
 [replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 [substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 [substring]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+[toElement]: #serializationtoelement-

@@ -295,6 +295,41 @@ Serialize.prototype.append = function (toAdd) {
 }
 
 /**
+ * Serialize#equals(other) determines if two Serializations are
+ * equivalent. Continuing with the comparison to strings, it’s like
+ * the == operator.
+ *
+ * @param {Serialize} other
+ * @return {Boolean}
+ */
+Serialize.prototype.equals = function (other) {
+  var otherMarkup,
+      markup,
+      keys,
+      i, j
+
+  if (this.type !== other.type || this.text !== other.text ||
+      this.markups.length !== other.markups.length)
+    return false
+
+  for (i = 0; i < this.markups.length; i += 1) {
+    otherMarkup = other.markups[i]
+    markup = this.markups[i]
+    keys = Object.keys(markup)
+
+    if (keys.length !== Object.keys(otherMarkup).length)
+      return false
+
+    for (j = 0; j < keys.length; j += 1) {
+      if (markup[keys[j]] !== otherMarkup[keys[j]])
+        return false
+    }
+  }
+
+  return true
+}
+
+/**
  * Serialize#toElement() converts a serialization back to an element.
  *
  * @return {Element}
