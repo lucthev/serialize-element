@@ -51,7 +51,7 @@ Adds the array of markups to the serialization’s markups, ordering them first 
 
 Removes or truncates a serialization’s markups such that no markups of the same type as the given markup overlap the given markup’s range.
 
-NOTE: for the link type, this method does not check the href. Be careful with it.
+__Note__: for the link type, this method does not check the href. Be careful with it.
 
 ### serialization.mergeAdjacent( )
 
