@@ -39,7 +39,6 @@ function mergeAdjacent (markups) {
   var mergeable,
       i
 
-
   for (i = 0; i < markups.length - 1; i += 1) {
     mergeable = canMerge(markups[i], markups[i + 1])
 

@@ -18,7 +18,7 @@ function Serialize (elem) {
     return new Serialize(elem)
 
   if (!elem || elem.nodeType !== Node.ELEMENT_NODE)
-    throw new Error('Serialize can only serialize element nodes.')
+    throw new TypeError('Serialize can only serialize element nodes.')
 
   var node = elem.firstChild,
       children = [],
@@ -103,7 +103,7 @@ function Serialize (elem) {
 /**
  * Serialize#addMarkups(markups) adds the given markups to the
  * serialization. Markups are ordered by increasing type, then
- * by increasing start index.
+ * by increasing start index, then increasing end index.
  *
  * @param {Array} markups
  * @return {Context}
@@ -150,6 +150,69 @@ Serialize.prototype._addMarkup = function (toAdd) {
   }
 
   this.markups.splice(i, 0, toAdd)
+
+  return this
+}
+
+/**
+ * Serialize#removeMarkup(markup) removes or truncates a serialization’s
+ * markups such that no markups of the same type as the given markup
+ * overlap the given markup’s range. NOTE: for the link type, this method
+ * does not check the href.
+ *
+ * @param {Object} toRemove
+ * @return {Context}
+ */
+Serialize.prototype.removeMarkup = function (toRemove) {
+  var markup,
+      before,
+      after,
+      i
+
+  for (i = 0; i < this.markups.length; i += 1) {
+    markup = this.markups[i]
+
+    if (markup.type > toRemove.type) break
+    if (markup.type !== toRemove.type) continue
+
+    if (markup.start <= toRemove.start && markup.end >= toRemove.end) {
+      before = {
+        type: markup.type,
+        start: markup.start,
+        end: toRemove.start
+      }
+
+      after = {
+        type: markup.type,
+        start: toRemove.end,
+        end: markup.end
+      }
+
+      if (after.start !== after.end && before.start !== before.end) {
+        this.markups.splice(i, 1, before, after)
+        i += 1
+      } else if (before.start !== before.end) {
+        this.markups[i] = before
+      } else if (after.start !== after.end) {
+        this.markups[i] = after
+      } else {
+        this.markups.splice(i, 1)
+        i -= 1
+      }
+
+      return
+    }
+
+    if (markup.start >= toRemove.start && markup.start < toRemove.end)
+      markup.start = toRemove.end
+    if (markup.end > toRemove.start && markup.end <= toRemove.end)
+      markup.end = toRemove.start
+
+    if (markup.end <= markup.start) {
+      this.markups.splice(i, 1)
+      i -= 1
+    }
+  }
 
   return this
 }

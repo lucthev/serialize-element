@@ -47,6 +47,12 @@ Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and vari
 
 Adds the array of markups to the serialization’s markups, ordering them first by type, then by start index, then by end index. This method is chainable.
 
+### serialization.removeMarkup( markup )
+
+Removes or truncates a serialization’s markups such that no markups of the same type as the given markup overlap the given markup’s range.
+
+NOTE: for the link type, this method does not check the href. Be careful with it.
+
 ### serialization.mergeAdjacent( )
 
 Merges adjacent or overlapping markups of the same type. If you've recently added a markup, you should call this method to normalize things.
