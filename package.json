@@ -1,6 +1,6 @@
 {
   "name": "serialize-elem",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manipulate block elements as if they were text.",
   "main": "src/serialize.js",
   "keywords": [
