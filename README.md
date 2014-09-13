@@ -10,7 +10,7 @@ $ npm install serialize-elem
 
 ## Motivation
 
-Serialize's primary use case is in-browser rich text editing. The tree structure of HTML documents can be a pain to work with; Serialize aims to absctract away some of the difficulties by allowing you to manipulate block elements as if they were text. Inline stylings are stored as markups that can be applied to the text.
+Serialize's primary use case is in-browser rich text editing. The tree structure of HTML documents can be a pain to work with; Serialize aims to abstract away some of the difficulties by allowing you to manipulate block elements as if they were text. Inline stylings are stored as markups that can be applied to the text.
 
 ## API
 
