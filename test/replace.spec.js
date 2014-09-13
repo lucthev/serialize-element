@@ -883,4 +883,100 @@ describe('Serialize#replace', function () {
     expect(result.text).toEqual('11″2 and things.')
     expect(result.markups).toEqual([])
   })
+
+  it('can use the $\\d replacement pattern.', function () {
+    this.elem.innerHTML = 'busybee'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/b(.)/g, 'a$1')
+
+    expect(result.text).toEqual('ausyaee')
+    expect(result.length).toEqual(7)
+    expect(result.markups).toEqual([])
+  })
+
+  it('can use the $$ replacement pattern.', function () {
+    this.elem.innerHTML = '<em>busy</em>bee'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/b/g, 'b$$')
+
+    expect(result.text).toEqual('b$usyb$ee')
+    expect(result.length).toEqual(9)
+    expect(result.markups).toEqual([{
+      type: Types.italic,
+      start: 0,
+      end: 5
+    }])
+  })
+
+  it('can use the $` replacement pattern.', function () {
+    this.elem.innerHTML = '<code>abcde</code>f'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/[be]/g, '$`')
+
+    expect(result.text).toEqual('aacdabcdf')
+    expect(result.length).toEqual(9)
+    expect(result.markups).toEqual([{
+      type: Types.code,
+      start: 0,
+      end: 8
+    }])
+  })
+
+  it('can use the $\' replacement pattern.', function () {
+    this.elem.innerHTML = 'abcdef'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/[be]/g, '$\'')
+
+    expect(result.text).toEqual('acdefcdff')
+    expect(result.length).toEqual(9)
+    expect(result.markups).toEqual([])
+  })
+
+  it('can use the $& replacement pattern.', function () {
+    this.elem.innerHTML = 'ab<em>\n</em>cd'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/./g, '$&$&')
+
+    expect(result.text).toEqual('aabb\nccdd')
+    expect(result.length).toEqual(9)
+    expect(result.markups).toEqual([{
+      type: Types.italic,
+      start: 4,
+      end: 5
+    }])
+  })
+
+  it('ignore wrong $\\d patterns (1).', function () {
+    this.elem.innerHTML = 'a1a2a3'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/a(\d)/g, '$0')
+
+    expect(result.text).toEqual('$0$0$0')
+    expect(result.length).toEqual(6)
+    expect(result.markups).toEqual([])
+  })
+
+  it('ignore wrong $\\d patterns (2).', function () {
+    this.elem.innerHTML = 'a1a2a3'
+
+    var result = new Serialize(this.elem)
+
+    result.replace(/a(\d)/g, '$2')
+
+    expect(result.text).toEqual('$2$2$2')
+    expect(result.length).toEqual(6)
+    expect(result.markups).toEqual([])
+  })
 })
