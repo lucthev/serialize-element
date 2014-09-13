@@ -275,6 +275,22 @@ describe('Serialize', function () {
     expect(result.markups).toEqual([])
   })
 
+  it('should automatically update length when setting text.', function () {
+    this.elem.innerHTML = 'One'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.length).toEqual(3)
+    expect(result.text).toEqual('One')
+    expect(result.markups).toEqual([])
+
+    result.text = 'New text'
+
+    expect(result.length).toEqual(8)
+    expect(result.text).toEqual('New text')
+    expect(result.markups).toEqual([])
+  })
+
   describe('Serialize.fromJSON', function () {
 
     it('converts a stringified serialization to a live one.', function () {

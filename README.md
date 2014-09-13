@@ -43,6 +43,8 @@ gets converted to:
 
 Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and various italic and bold types (elements, like `<b>`, `<strong>`, etc, but also other elements with, say, `style="font-weight: bold"`) are supported. If you need to support a broader range of inline elements, adding support is trivial.
 
+__NOTE__: newer versions of Serialize use getters and setters to automagically update the `length` property of a serialization when its text is changed. Be careful when manually updating the `length` property; in most cases, there should be no reason to do so. See [below][compat] for notes about browser support.
+
 ### serialization.addMarkups( markups )
 
 Adds the array of markups to the serialization’s markups, ordering them first by type, then by start index, then by end index. This method is chainable.
@@ -136,7 +138,7 @@ var result = string + otherString
 
 ### serialization.equals( other )
 
-Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements with calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `==(=)` operator.
+Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements by calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `==(=)` operator.
 
 ```js
 var areSame = serialization.equals(other)
@@ -145,19 +147,37 @@ var areSame = serialization.equals(other)
 var areSame = string === otherString
 ```
 
-### Serialize.fromText( text )
+### Serialize.fromText( text [, tag] )
 
-Creates a serialization with the given String. The serialization will have no markups.
+Creates a serialization with the given string. The serialization will have no markups. Another string can optionally be passed in as a second parameter to determine the type of the resulting serialization, defaulting to `p`.
 
 ### Serialize.fromJSON( )
 
 If you have previously `JSON.stringify`’d a serialization, you can convert it to a “live” instance of Serialize by using this method.
 
+## Browser compatibility
+
+Because of Serialize’s use of getters and setters, the latest version of Serialize will not work in legacy browsers. More specifically, Serialize will only work in:
+
+| Browser | Version |
+| --- | :---: |
+| Firefox | `>= 4` |
+| Chrome | `>= 5` |
+| Internet Explorer | `>= 9` |
+| Opera | `>= 11.60` |
+| Safari | `>= 5.1` |
+
+(Based on Mozilla Developer Network’s compatibility tables for [`Object.defineProperty`][prop])
+
+If you need wider support, version one (on the `legacy` branch) is still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
+
 ## License
 
 MIT.
 
+[compat]: #browser-compatibility
 [replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 [substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 [substring]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 [toElement]: #serializationtoelement-
+[prop]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#Browser_compatibility

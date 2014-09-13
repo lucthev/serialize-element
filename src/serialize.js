@@ -22,23 +22,34 @@ function Serialize (elem) {
 
   var node = elem.firstChild,
       children = [],
+      text = '',
       depth = 0,
       info,
       i
 
   this.length = 0
   this.markups = []
-  this.text = ''
   this.type = elem.nodeName.toLowerCase()
+
+  // Setting text should automatically set the length.
+  Object.defineProperty(this, 'text', {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+      return text
+    },
+    set: function (newText) {
+      this.length = newText.length
+      text = newText
+    }
+  })
 
   while (node) {
     if (node.nodeType === Node.ELEMENT_NODE) {
 
       // <br>s are interpreted as newlines.
-      if (node.nodeName === 'BR') {
-        this.length += 1
+      if (node.nodeName === 'BR')
         this.text += '\n'
-      }
 
       // If the element has no children, we just ignore it.
       if (!node.firstChild) {
@@ -77,7 +88,6 @@ function Serialize (elem) {
     }
 
     // Assuming only element and text nodes are present.
-    this.length += node.data.length
     this.text += node.data
 
     while (!node.nextSibling) {
@@ -267,7 +277,6 @@ Serialize.prototype.substr = function (start, length) {
   end = start + length
 
   substr.text = this.text.substr(start, length)
-  substr.length = length
 
   for (i = 0; i < this.markups.length; i += 1) {
     markup = this.markups[i]
@@ -325,7 +334,6 @@ Serialize.prototype.append = function (toAdd) {
   if (!toAdd) return
 
   serialization = new Serialize(document.createElement(this.type))
-  serialization.length = this.length + toAdd.length
   serialization.text = this.text + toAdd.text
 
   for (i = 0; i < this.markups.length; i += 1) {
@@ -415,7 +423,7 @@ Serialize.prototype.toElement = function () {
 }
 
 /**
- * Serialize.fromText(text, tag) creates a serialization with the
+ * Serialize.fromText(text [, tag]) creates a serialization with the
  * given text, optionally with a type 'tag'. 'tag' defaults to 'p'.
  * Returns a serialization with no markups.
  *
@@ -431,7 +439,6 @@ Serialize.fromText = function (text, tag) {
 
   // Other properties will already be as we want them.
   serialization.text = text
-  serialization.length = text.length
 
   return serialization
 }
@@ -453,7 +460,6 @@ Serialize.fromJSON = function (json) {
 
   serialization.type = result.type
   serialization.text = result.text
-  serialization.length = result.length || result.text.length
   serialization.markups = result.markups || []
 
   return serialization

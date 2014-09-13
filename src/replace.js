@@ -76,9 +76,6 @@ function replace (match, substr) {
     return str
   }.bind(this))
 
-  // Just recalculate the new length afterwards.
-  this.length = this.text.length
-
   return this
 }
 
