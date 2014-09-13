@@ -28,9 +28,12 @@ function replace (match, substr) {
   var replaced = 0
 
   this.text = this.text.replace(match, function (match) {
-    var index = arguments[arguments.length - 2],
+    var original = arguments[arguments.length - 1],
+        index = arguments[arguments.length - 2],
         difference,
         markup,
+        letter,
+        paren,
         str,
         i
 
@@ -42,7 +45,48 @@ function replace (match, substr) {
       if (str === false || str === match)
         return match
 
-    } else str = substr
+    } else {
+
+      // Account for special replacement patterns; see
+      // https://github.com/lucthev/serialize/issues/2
+      // for more details.
+
+      str = ''
+      for (i = 0; i < substr.length; i += 1) {
+        letter = substr[i]
+
+        if (letter !== '$') {
+          str += letter
+          continue
+        }
+
+        letter = substr[i + 1]
+        switch (letter) {
+          case '$':
+            str += '$'
+            break
+          case '&':
+            str += match
+            break
+          case '`':
+            str += original.substr(0, index)
+            break
+          case '\'':
+            str += original.substr(index + match.length)
+            break
+
+          default:
+            paren = parseInt(letter)
+
+            if (paren && paren <= arguments.length - 3)
+              str += arguments[paren]
+            else
+              str += ('$' + letter)
+        }
+
+        i += 1
+      }
+    }
 
     // Account for the fact that the length of the text may have already
     // been changed by a previous replace.
