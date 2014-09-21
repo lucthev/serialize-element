@@ -311,7 +311,8 @@ Serialize.prototype.substring = function (start, end) {
 
 /**
  * append(serialization) concatenates two serializations. It's like the
- * '+' operator for strings. Returns a new serialization.
+ * '+' operator for strings. Returns a new serialization. If toAdd is a
+ * string, markups that end at the
  *
  * @param {Serialize} serialization
  * @return {Serialize}
@@ -323,6 +324,21 @@ Serialize.prototype.append = function (toAdd) {
       i
 
   if (!toAdd) return
+
+  if (typeof toAdd === 'string') {
+    serialization = this.substr(0)
+
+    for (i = 0; i < serialization.markups.length; i += 1) {
+      markup = serialization.markups[i]
+
+      if (markup.end === serialization.length)
+        markup.end += toAdd.length
+    }
+
+    serialization.length += toAdd.length
+    serialization.text += toAdd
+    return serialization
+  }
 
   serialization = new Serialize(document.createElement(this.type))
   serialization.length = this.length + toAdd.length
@@ -446,10 +462,10 @@ Serialize.fromText = function (text, tag) {
  */
 Serialize.fromJSON = function (json) {
   var result = JSON.parse(json),
-      serialization = new this(document.createElement('p'))
+      serialization = new Serialize(document.createElement('p'))
 
   if (typeof result.text !== 'string' || !result.type)
-    throw new Error('Invalid JSON serialization.')
+    throw new TypeError('Invalid JSON serialization.')
 
   serialization.type = result.type
   serialization.text = result.text

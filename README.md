@@ -134,6 +134,16 @@ var result = serialization.append(other)
 var result = string + otherString
 ```
 
+If `other` is a string, the serialization returned will have that string appended to its text, and any markups that previously terminated at the end of the serializtion are extended such that they terminate at the end of the new serialization. For example:
+
+```html
+<p><em>1</em><strong>2</strong></p>
+<!-- Serializing, then calling .append('345'), results in: -->
+<p><em>1</em><strong>2345</strong></p>
+```
+
+If wish to avoid extending markups, simply add your text directly to the serialization’s — just remember to update the serialization’s `length` accordingly.
+
 ### serialization.equals( other )
 
 Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements with calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `==(=)` operator.

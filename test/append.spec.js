@@ -312,4 +312,62 @@ describe('Serialize#append', function () {
       end: 5
     }])
   })
+
+  it('can append text.', function () {
+    this.p.innerHTML = 'Stuff'
+
+    var first = new Serialize(this.p),
+        result = first.append(' and things')
+
+    expect(first.type).toEqual('p')
+    expect(first.length).toEqual(5)
+    expect(first.text).toEqual('Stuff')
+    expect(first.markups).toEqual([])
+
+    expect(result.type).toEqual('p')
+    expect(result.length).toEqual(16)
+    expect(result.text).toEqual('Stuff and things')
+    expect(result.markups).toEqual([])
+  })
+
+  it('should extend markups when appending text.', function () {
+    this.p.innerHTML = '1<em>2</em><b><code>3</code></b>'
+
+    var first = new Serialize(this.p),
+        result = first.append('45')
+
+    expect(first.type).toEqual('p')
+    expect(first.length).toEqual(3)
+    expect(first.text).toEqual('123')
+    expect(first.markups).toEqual([{
+      type: Types.code,
+      start: 2,
+      end: 3
+    }, {
+      type: Types.bold,
+      start: 2,
+      end: 3
+    }, {
+      type: Types.italic,
+      start: 1,
+      end: 2
+    }])
+
+    expect(result.type).toEqual('p')
+    expect(result.length).toEqual(5)
+    expect(result.text).toEqual('12345')
+    expect(result.markups).toEqual([{
+      type: Types.code,
+      start: 2,
+      end: 5
+    }, {
+      type: Types.bold,
+      start: 2,
+      end: 5
+    }, {
+      type: Types.italic,
+      start: 1,
+      end: 2
+    }])
+  })
 })
