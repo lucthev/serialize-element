@@ -264,6 +264,7 @@ Serialize.prototype.replace = replaceStr
  */
 Serialize.prototype.substr = function (start, length) {
   var substr = new Serialize(document.createElement(this.type)),
+      newMarkup,
       markup,
       end,
       i
@@ -285,11 +286,16 @@ Serialize.prototype.substr = function (start, length) {
     markup = this.markups[i]
 
     if (markup.start < end && markup.end > start) {
-      substr._addMarkup({
+      newMarkup = {
         type: markup.type,
         start: markup.start > start ? markup.start - start : 0,
         end: markup.end < end ? markup.end - start : end - start
-      })
+      }
+
+      if (markup.href !== undefined)
+        newMarkup.href = markup.href
+
+      substr._addMarkup(newMarkup)
     }
   }
 
@@ -316,7 +322,8 @@ Serialize.prototype.substring = function (start, end) {
   if (start < 0) start = 0
   if (end < 0) end = 0
 
-  if (typeof end === 'undefined') end = this.length
+  if (end === undefined)
+    end = this.length
 
   return this.substr(start, end - start)
 }
@@ -367,6 +374,9 @@ Serialize.prototype.append = function (toAdd) {
       end: markup.end
     }
 
+    if (markup.href !== undefined)
+      newMarkup.href = markup.href
+
     serialization._addMarkup(newMarkup)
   }
 
@@ -378,6 +388,9 @@ Serialize.prototype.append = function (toAdd) {
       start: markup.start + this.length,
       end: markup.end + this.length
     }
+
+    if (markup.href !== undefined)
+      newMarkup.href = markup.href
 
     serialization._addMarkup(newMarkup)
   }

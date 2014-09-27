@@ -363,6 +363,22 @@ describe('Serialize#substr', function () {
       end: 4
     }])
   })
+
+  it('should preserve links', function () {
+    this.elem.innerHTML = '<a href="/x">1</a>23'
+
+    var result = new Serialize(this.elem),
+        substr = result.substr(0)
+
+    expect(substr.length).toEqual(3)
+    expect(result.text).toEqual('123')
+    expect(result.markups).toEqual([{
+      type: Types.link,
+      start: 0,
+      end: 1,
+      href: '/x'
+    }])
+  })
 })
 
 describe('Serialize#substring', function () {
