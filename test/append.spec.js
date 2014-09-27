@@ -111,7 +111,7 @@ describe('Serialize#append', function () {
     }])
   })
 
-  it('concatenates non-empty serializations.', function () {
+  it('concatenates non-empty serializations (1)', function () {
     this.p.innerHTML = 'a'
     this.pre.innerHTML = 'b'
 
@@ -125,7 +125,7 @@ describe('Serialize#append', function () {
     expect(result.markups).toEqual([])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (2)', function () {
     this.p.innerHTML = 'b'
     this.pre.innerHTML = 'a'
 
@@ -143,7 +143,7 @@ describe('Serialize#append', function () {
     expect(result.markups).toEqual([])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (3)', function () {
     this.p.innerHTML = '<em>a</em>'
     this.pre.innerHTML = 'b'
 
@@ -169,7 +169,7 @@ describe('Serialize#append', function () {
     }])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (4)', function () {
     this.p.innerHTML = 'a'
     this.pre.innerHTML = '<em>b</em>'
 
@@ -191,7 +191,7 @@ describe('Serialize#append', function () {
     }])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (5)', function () {
     this.p.innerHTML = '<em>a</em>'
     this.pre.innerHTML = '<em>b</em>'
 
@@ -217,7 +217,7 @@ describe('Serialize#append', function () {
     }])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (6)', function () {
     this.p.innerHTML = '<code>a</code>'
     this.pre.innerHTML = '<em>b</em>'
 
@@ -247,7 +247,7 @@ describe('Serialize#append', function () {
     }])
   })
 
-  it('concatenates non-empty serializations (2).', function () {
+  it('concatenates non-empty serializations (7)', function () {
     this.p.innerHTML = '<em>a</em>'
     this.pre.innerHTML = '<code>b</code>'
 
@@ -274,6 +274,29 @@ describe('Serialize#append', function () {
       type: Types.italic,
       start: 0,
       end: 1
+    }])
+  })
+
+  it('should preserve links', function () {
+    this.p.innerHTML = '<a href="/x">1</a>2'
+    this.pre.innerHTML = '<a href="/y">3</a>4'
+
+    var first = new Serialize(this.p),
+        second = new Serialize(this.pre),
+        result = first.append(second)
+
+    expect(result.length).toEqual(4)
+    expect(result.text).toEqual('1234')
+    expect(result.markups).toEqual([{
+      type: Types.link,
+      start: 0,
+      end: 1,
+      href: '/x'
+    }, {
+      type: Types.link,
+      start: 2,
+      end: 3,
+      href: '/y'
     }])
   })
 
