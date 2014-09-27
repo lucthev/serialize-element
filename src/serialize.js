@@ -188,6 +188,9 @@ Serialize.prototype.removeMarkup = function (toRemove) {
         end: markup.end
       }
 
+      if (markup.href !== undefined)
+        before.href = after.href = markup.href
+
       if (after.start !== after.end && before.start !== before.end) {
         this.markups.splice(i, 1, before, after)
         i += 1

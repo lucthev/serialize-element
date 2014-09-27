@@ -339,4 +339,35 @@ describe('Serialize#removeMarkup should', function () {
       end: 21
     }])
   })
+
+  it('conserve hrefs', function () {
+    this.elem.innerHTML = '<a href="/x">123</a>'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.markups).toEqual([{
+      type: Types.link,
+      start: 0,
+      end: 3,
+      href: '/x'
+    }])
+
+    result.removeMarkup({
+      type: Types.link,
+      start: 1,
+      end: 2
+    })
+
+    expect(result.markups).toEqual([{
+      type: Types.link,
+      start: 0,
+      end: 1,
+      href: '/x'
+    }, {
+      type: Types.link,
+      start: 2,
+      end: 3,
+      href: '/x'
+    }])
+  })
 })
