@@ -213,7 +213,7 @@ Serialize.prototype.removeMarkup = function (toRemove) {
         i -= 1
       }
 
-      return
+      return this
     }
 
     if (markup.start >= toRemove.start && markup.start < toRemove.end)
