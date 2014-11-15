@@ -38,7 +38,7 @@ function replace (match, substr) {
         i
 
     if (typeof substr === 'function') {
-      str = substr.apply(null, Array.prototype.slice.call(arguments))
+      str = substr.apply(null, arguments)
 
       // If the function returns false or a string identical to match,
       // we take no action.
