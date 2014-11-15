@@ -231,7 +231,7 @@ Serialize.prototype.removeMarkup = function (toRemove) {
 }
 
 /**
- * Serialze#mergeAdjacent() merges adjectent markups of the same type.
+ * Serialize#mergeAdjacent() merges adjacent markups of the same type.
  *
  * @return {Context}
  */
@@ -275,7 +275,7 @@ Serialize.prototype.substr = function (start, length) {
   while (start < 0)
     start = this.length + start
 
-  if (typeof length === 'undefined' || start + length > this.length)
+  if (length === undefined || start + length > this.length)
     length = this.length - start
 
   end = start + length
@@ -455,6 +455,16 @@ Serialize.prototype.toElement = function () {
   elem.normalize()
 
   return elem
+}
+
+/**
+ * toString() overrides the default toString to return the HTML of the
+ * element this Serialization represents.
+ *
+ * @return {String}
+ */
+Serialize.prototype.toString = function () {
+  return this.toElement().outerHTML
 }
 
 /**

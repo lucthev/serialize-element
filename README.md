@@ -157,6 +157,19 @@ var areSame = serialization.equals(other)
 var areSame = string === otherString
 ```
 
+### serialization.toString( )
+
+This overrides the inherited `toString` to return the outerHTML of the Serialization’s equivalent element. For example:
+
+```js
+var p = document.createElement('p')
+p.textContent = 'A <em>B</em> C'
+
+var serialization = new Serialize(p)
+console.log('' + serialization)
+// "<p>A <em>B</em> C</p>"
+```
+
 ### Serialize.fromText( text [, tag] )
 
 Creates a serialization with the given string. The serialization will have no markups. Another string can optionally be passed in as a second parameter to determine the type of the resulting serialization, defaulting to `p`.

@@ -316,4 +316,19 @@ describe('Serialize', function () {
         .toEqual(result)
     })
   })
+
+  describe('Serialize#toString', function () {
+
+    it('returns the outerHTML of the equivalent element', function () {
+      var p = document.createElement('p')
+
+      p.innerHTML = 'One <em>two</em> three'
+
+      var result = new Serialize(p)
+
+      var html = '<p>One <em>two</em> three</p>'
+      expect(result.toString()).toEqual(html)
+      expect('' + result).toEqual(html)
+    })
+  })
 })
