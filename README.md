@@ -174,7 +174,7 @@ console.log('' + serialization)
 
 Creates a serialization with the given string. The serialization will have no markups. Another string can optionally be passed in as a second parameter to determine the type of the resulting serialization, defaulting to `p`.
 
-### Serialize.fromJSON( )
+### Serialize.fromJSON( json )
 
 If you have previously `JSON.stringify`’d a serialization, you can convert it to a “live” instance of Serialize by using this method.
 
@@ -192,7 +192,7 @@ Because of Serialize’s use of getters and setters, the latest version of Seria
 
 (Based on Mozilla Developer Network’s compatibility tables for [`Object.defineProperty`][prop])
 
-If you need wider support, version one (on the `legacy` branch) is still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
+If you need wider support, versions `1.x.y` (on the `legacy` branch) are still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
 
 ## License
 

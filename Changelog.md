@@ -2,7 +2,7 @@
 
 This document tracks features added, behaviour changes, and bugs fixed in Serialize. Generally, Serialize follows [Semver](http://semver.org/); unless you’ve been relying on buggy behaviour, you should have no problem upgrading to new minor and patch versions.
 
-### 2.1.4
+### 2.2.0
 
 Defines a custom `toString` method that returns the outerHTML of `Serialize#toElement`.
 
@@ -35,6 +35,8 @@ var p = document.createElement('p')
 p.textContent = 'foo'
 
 var s = new Serialize(p)
+console.log(s.length) // 3
+
 s.text += '\n'
 console.log(s.length) // 4
 ```
@@ -43,7 +45,7 @@ console.log(s.length) // 4
 
 ### 1.x.y
 
-The `1.x.y` release are backports of the respective `2.x.y` changes.
+The `1.x.y` releases are backports of the respective `2.x.y` changes.
 
 ### 1.0.0
 
