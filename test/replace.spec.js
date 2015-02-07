@@ -21,7 +21,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('…')
@@ -34,7 +34,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('…')
@@ -50,7 +50,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('…')
@@ -62,7 +62,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('…')
@@ -74,7 +74,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('…')
@@ -86,7 +86,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('a…c')
@@ -102,7 +102,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('a…c')
@@ -118,7 +118,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('a…c')
@@ -134,7 +134,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('a…c')
@@ -150,7 +150,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('a…c')
@@ -166,7 +166,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('a…b…c')
@@ -182,7 +182,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('a…b…c')
@@ -198,7 +198,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('a…b…c')
@@ -214,7 +214,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('a…b…c')
@@ -230,7 +230,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('……')
@@ -242,7 +242,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('……')
@@ -258,7 +258,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('……')
@@ -274,7 +274,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('……')
@@ -290,7 +290,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('……')
@@ -302,7 +302,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/\.\.\./g, '…')
+    result = result.replace(/\.\.\./g, '…')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('………')
@@ -320,7 +320,7 @@ describe('Serialize#replace', function () {
 
     // In this case, the replacement has no net effet on the length
     // of the text, and so should not actually affect markups.
-    result.replace(/x/g, 'y')
+    result = result.replace(/x/g, 'y')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('y')
@@ -334,7 +334,7 @@ describe('Serialize#replace', function () {
 
     // In this case, the replacement has no net effet on the length
     // of the text, and so should not actually affect markups.
-    result.replace(/x/g, 'y')
+    result = result.replace(/x/g, 'y')
 
     expect(result.length).toEqual(1)
     expect(result.text).toEqual('y')
@@ -350,7 +350,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/x/g, 'y')
+    result = result.replace(/x/g, 'y')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('ayb')
@@ -366,7 +366,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/x/g, 'y')
+    result = result.replace(/x/g, 'y')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('ayb')
@@ -382,7 +382,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/x/g, 'y')
+    result = result.replace(/x/g, 'y')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('ayb')
@@ -398,7 +398,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(0)
     expect(result.text).toEqual('')
@@ -410,7 +410,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(0)
     expect(result.text).toEqual('')
@@ -422,7 +422,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('ab')
@@ -434,7 +434,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('ab')
@@ -450,7 +450,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('ab')
@@ -466,7 +466,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, '')
+    result = result.replace(/#/g, '')
 
     expect(result.length).toEqual(2)
     expect(result.text).toEqual('ab')
@@ -482,7 +482,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('xyz')
@@ -494,7 +494,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('xyz')
@@ -510,7 +510,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -526,7 +526,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -542,7 +542,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -558,7 +558,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -574,7 +574,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -590,7 +590,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/#/g, 'xyz')
+    result = result.replace(/#/g, 'xyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('axyzb')
@@ -606,7 +606,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(5)
     expect(result.text).toEqual('vwxyz')
@@ -618,7 +618,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -634,7 +634,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -650,7 +650,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -666,7 +666,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -682,7 +682,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -694,7 +694,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(7)
     expect(result.text).toEqual('avwxyzb')
@@ -706,7 +706,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(13)
     expect(result.text).toEqual('avwxyzbvwxyzc')
@@ -718,7 +718,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(13)
     expect(result.text).toEqual('avwxyzbvwxyzc')
@@ -734,7 +734,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(13)
     expect(result.text).toEqual('avwxyzbvwxyzc')
@@ -750,7 +750,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/##/g, 'vwxyz')
+    result = result.replace(/##/g, 'vwxyz')
 
     expect(result.length).toEqual(13)
     expect(result.text).toEqual('avwxyzbvwxyzc')
@@ -767,7 +767,7 @@ describe('Serialize#replace', function () {
     var result = new Serialize(this.elem),
         index = 0
 
-    result.replace(/\.\.\./g, function (match, pos) {
+    result = result.replace(/\.\.\./g, function (match, pos) {
       if (index > pos && index < pos + match.length)
         return match
       else
@@ -785,7 +785,7 @@ describe('Serialize#replace', function () {
     var result = new Serialize(this.elem),
         index = 2
 
-    result.replace(/\.\.\./g, function (match, pos) {
+    result = result.replace(/\.\.\./g, function (match, pos) {
       if (index > pos && index < pos + match.length)
         return match
       else
@@ -803,7 +803,7 @@ describe('Serialize#replace', function () {
     var result = new Serialize(this.elem),
         index = 2
 
-    result.replace(/\.\.\./g, function (match, pos) {
+    result = result.replace(/\.\.\./g, function (match, pos) {
       if (index > pos && index < pos + match.length)
         return false
       else
@@ -825,7 +825,7 @@ describe('Serialize#replace', function () {
     var result = new Serialize(this.elem),
         index = 3
 
-    result.replace(/\.\.\./g, function (match, pos) {
+    result = result.replace(/\.\.\./g, function (match, pos) {
       if (index > pos && index < pos + match.length)
         return match
       else
@@ -844,7 +844,7 @@ describe('Serialize#replace', function () {
         index = 11,
         shift = 0
 
-    result.replace(/\.\.\./g, function (match, pos) {
+    result = result.replace(/\.\.\./g, function (match, pos) {
       if (index > pos && index < pos + match.length)
         return match
       else {
@@ -869,7 +869,7 @@ describe('Serialize#replace', function () {
     var result = new Serialize(this.elem),
         matched = false
 
-    result.replace(/(\d)['"](\d)?/g, function (match, digit, after, pos) {
+    result = result.replace(/(\d)['"](\d)?/g, function (match, digit, after, pos) {
       matched = true
 
       expect(digit).toEqual('1')
@@ -889,7 +889,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/b(.)/g, 'a$1')
+    result = result.replace(/b(.)/g, 'a$1')
 
     expect(result.text).toEqual('ausyaee')
     expect(result.length).toEqual(7)
@@ -901,7 +901,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/b/g, 'b$$')
+    result = result.replace(/b/g, 'b$$')
 
     expect(result.text).toEqual('b$usyb$ee')
     expect(result.length).toEqual(9)
@@ -917,7 +917,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/[be]/g, '$`')
+    result = result.replace(/[be]/g, '$`')
 
     expect(result.text).toEqual('aacdabcdf')
     expect(result.length).toEqual(9)
@@ -933,7 +933,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/[be]/g, '$\'')
+    result = result.replace(/[be]/g, '$\'')
 
     expect(result.text).toEqual('acdefcdff')
     expect(result.length).toEqual(9)
@@ -945,7 +945,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/./g, '$&$&')
+    result = result.replace(/./g, '$&$&')
 
     expect(result.text).toEqual('aabb\nccdd')
     expect(result.length).toEqual(9)
@@ -961,7 +961,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/a(\d)/g, '$0')
+    result = result.replace(/a(\d)/g, '$0')
 
     expect(result.text).toEqual('$0$0$0')
     expect(result.length).toEqual(6)
@@ -973,7 +973,7 @@ describe('Serialize#replace', function () {
 
     var result = new Serialize(this.elem)
 
-    result.replace(/a(\d)/g, '$2')
+    result = result.replace(/a(\d)/g, '$2')
 
     expect(result.text).toEqual('$2$2$2')
     expect(result.length).toEqual(6)

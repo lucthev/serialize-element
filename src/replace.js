@@ -22,12 +22,14 @@ function contained (min, max, n) {
  *
  * @param {RegExp} match
  * @param {String || Function} substr
- * @return {Context}
+ * @return {Serialize}
  */
 function replace (match, substr) {
-  var replaced = 0
+  var replaced = 0,
+      s
 
-  this.text = this.text.replace(match, function (match) {
+  s = this.substr(0)
+  s.text = s.text.replace(match, function replacer (match) {
     var original = arguments[arguments.length - 1],
         index = arguments[arguments.length - 2],
         difference,
@@ -96,8 +98,8 @@ function replace (match, substr) {
     replaced += difference
 
     // Update all markups.
-    for (i = 0; i < this.markups.length; i += 1) {
-      markup = this.markups[i]
+    for (i = 0; i < s.markups.length; i += 1) {
+      markup = s.markups[i]
 
       if (contained(index, index + match.length, markup.start))
         markup.start = index + str.length
@@ -111,19 +113,18 @@ function replace (match, substr) {
 
       // Remove the markup if it no longer makes sense.
       if (markup.end <= markup.start) {
-        this.markups.splice(i, 1)
+        s.markups.splice(i, 1)
         i -= 1
       } else
-        this.markups[i] = markup
+        s.markups[i] = markup
     }
 
     return str
-  }.bind(this))
+  })
 
   // Just recalculate the new length afterwards.
-  this.length = this.text.length
-
-  return this
+  s.length = s.text.length
+  return s
 }
 
 module.exports = replace
