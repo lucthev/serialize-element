@@ -65,9 +65,7 @@ Return a new element resembling the one that was serialized.
 
 ### serialization.replace( pattern, substr )
 
-Works like [`String#replace`][replace] on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`][replace].
-
-__Note__: unlike [`String#replace`][replace], `Serialize#replace` does __not__ returns a new serialization; rather, it mutates the existing serialization. It returns the context to allow chaining.
+Works like [`String#replace`][replace] on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`][replace]. Returns a new serialization.
 
 If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
 
