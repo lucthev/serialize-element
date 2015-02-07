@@ -335,7 +335,8 @@ Serialize.prototype.append = function (toAdd) {
       markup,
       i
 
-  if (!toAdd) return
+  if (!toAdd)
+    return this.substr(0)
 
   if (typeof toAdd === 'string') {
     serialization = this.substr(0)
