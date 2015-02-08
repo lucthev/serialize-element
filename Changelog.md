@@ -2,6 +2,10 @@
 
 This document tracks features added, behaviour changes, and bugs fixed in Serialize. Generally, Serialize follows [Semver](http://semver.org/); unless you’ve been relying on buggy behaviour, you should have no problem upgrading to new minor and patch versions.
 
+### 2.2.2
+
+- Serialize now recognizes only text and element nodes when creating the serialization. All other nodes (e.g. comment nodes) are ignored.
+
 ### 2.2.1
 
 - `Serialize#replace` now returns a new serialization.
