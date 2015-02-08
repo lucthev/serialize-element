@@ -71,9 +71,10 @@ function Serialize (elem) {
       continue
     }
 
-    // Assuming only element and text nodes are present.
-    this.length += node.data.length
-    this.text += node.data
+    if (node.nodeType === Node.TEXT_NODE) {
+      this.length += node.data.length
+      this.text += node.data
+    }
 
     while (!node.nextSibling && depth) {
       info = children.pop()

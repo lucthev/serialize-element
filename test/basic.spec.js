@@ -275,6 +275,16 @@ describe('Serialize', function () {
     expect(result.markups).toEqual([])
   })
 
+  it('ignore non-element and non-text nodes (e.g. comments)', function () {
+    this.elem.innerHTML = 'Stuff<!-- But not this! -->Things'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.text).toEqual('StuffThings')
+    expect(result.length).toEqual('StuffThings'.length)
+    expect(result.markups).toEqual([])
+  })
+
   describe('Serialize.fromJSON', function () {
 
     it('converts a stringified serialization to a live one.', function () {
