@@ -45,9 +45,7 @@ function Serialize (elem) {
 
         // But we still have to account for the possibility it's the
         // last element.
-        while (!node.nextSibling) {
-          if (!depth) break
-
+        while (!node.nextSibling && depth) {
           info = children.pop()
           for (i = 0; i < info.length; i += 1)
             info[i].end = this.length
@@ -55,7 +53,6 @@ function Serialize (elem) {
           this.addMarkups(info)
 
           depth -= 1
-
           node = node.parentNode
         }
 
@@ -70,9 +67,7 @@ function Serialize (elem) {
       children.push(info)
 
       depth += 1
-
       node = node.firstChild
-
       continue
     }
 
@@ -80,9 +75,7 @@ function Serialize (elem) {
     this.length += node.data.length
     this.text += node.data
 
-    while (!node.nextSibling) {
-      if (!depth) break
-
+    while (!node.nextSibling && depth) {
       info = children.pop()
       for (i = 0; i < info.length; i += 1)
         info[i].end = this.length
@@ -90,7 +83,6 @@ function Serialize (elem) {
       this.addMarkups(info)
 
       depth -= 1
-
       node = node.parentNode
     }
 
