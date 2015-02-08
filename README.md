@@ -190,7 +190,7 @@ Because of Serialize’s use of getters and setters, the latest version of Seria
 
 (Based on Mozilla Developer Network’s compatibility tables for [`Object.defineProperty`][prop])
 
-If you need wider support, versions `1.x.y` (on the `legacy` branch) are still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
+If you need wider support, v1 of Serialize (`npm install serialize-elem@legacy`) is still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
 
 ## License
 
