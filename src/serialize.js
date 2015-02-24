@@ -122,13 +122,14 @@ Serialize.prototype.addMarkups = function (toAdd) {
 }
 
 /**
- * Serialize#_addMarkup(toAdd) adds the given markup to the array
+ * Serialize#addMarkup(toAdd) adds the given markup to the array
  * of markups as described above.
  *
  * @param {Object} toAdd
  * @return {Context}
  * @api Private
  */
+Serialize.prototype.addMarkup =
 Serialize.prototype._addMarkup = function (toAdd) {
   var i = 0
 

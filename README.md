@@ -14,7 +14,7 @@ Serialize's primary use case is in-browser rich text editing. The tree structure
 
 ## API
 
-### var serialization = new Serialize( element )
+### var s = new Serialize( element )
 
 Serializes the element into an object. Example:
 
@@ -43,25 +43,29 @@ gets converted to:
 
 Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and various italic and bold types (elements, like `<b>`, `<strong>`, etc, but also other elements with, say, `style="font-weight: bold"`) are supported. If you need to support a broader range of inline elements, adding support is trivial.
 
-### serialization.addMarkups( markups )
+### Serialize#addMarkup( markup )
 
-Adds the array of markups to the serialization’s markups, ordering them first by type, then by start index, then by end index. This method is chainable.
+Adds the given markup to the serialization. Markups are ordered first by type, then by start index, then by end index. Returns the context to allow chaining.
 
-### serialization.removeMarkup( markup )
+### Serialize#addMarkups( markups )
+
+As above, but with an array of markups.
+
+### Serialize#removeMarkup( markup )
 
 Removes or truncates a serialization’s markups such that no markups of the same type as the given markup overlap the given markup’s range.
 
 __Note__: for the link type, this method does not check the `href`. Be careful with it.
 
-### serialization.mergeAdjacent( )
+### Serialize#mergeAdjacent( )
 
 Merges adjacent or overlapping markups of the same type. If you've recently added a markup, you should call this method to normalize things.
 
-### serialization.toElement( )
+### Serialize#toElement( )
 
 Return a new element resembling the one that was serialized.
 
-### serialization.replace( pattern, substr )
+### Serialize#replace( pattern, substr )
 
 Works like [`String#replace`][replace] on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`][replace].
 
@@ -115,15 +119,15 @@ which, when converted back to en element, will look like:
 <p>One…<em> two</em></p>
 ```
 
-### serialization.substr( start [, length] )
+### Serialize#substr( start [, length] )
 
 Works the same as [`String#substr`][substr]. Returns a new serialization representing the duplicated substring, complete with the appropriate markups.
 
-### serialization.substring( start [, end] )
+### Serialize#substring( start [, end] )
 
 Like [`String#substring`][substring]. Returns a new serialization.
 
-### serialization.append( other )
+### Serialize#append( other )
 
 Returns a new serialization which results from appending the serialization `other` to the serialization this method was called upon. If we’re comparing serializations to text:
 
@@ -144,9 +148,10 @@ If `other` is a string, the serialization returned will have that string appende
 
 If you wish to avoid extending markups, simply add your text directly to the serialization’s — just remember to update the serialization’s `length` accordingly.
 
-### serialization.equals( other )
+### Serialize#equals( other )
 
-Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements with calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `==(=)` operator.
+
+Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements by calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the `===` operator.
 
 ```js
 var areSame = serialization.equals(other)
@@ -155,7 +160,7 @@ var areSame = serialization.equals(other)
 var areSame = string === otherString
 ```
 
-### serialization.toString( )
+### Serialize#toString( )
 
 This overrides the inherited `toString` to return the outerHTML of the Serialization’s equivalent element. For example:
 
