@@ -3,31 +3,31 @@
 var Types = require('./types')
 
 /**
- * serializeInline(elem) returns the serializations that are applicable
- * to the given element.
+ * serializeInline(elem) returns the markups that represent the given
+ * element.
  *
  * @param {Element}
  * @return {Array}
  */
 exports.serializeInline = function (elem) {
   var name = elem.nodeName.toLowerCase(),
-      serializations = []
+      markups = []
 
   if (name === 'a')
-    serializations.push({ type: Types.link, href: elem.getAttribute('href') })
+    markups.push({ type: Types.link, href: elem.getAttribute('href') })
   else if (name === 'code')
-    serializations.push({ type: Types.code })
+    markups.push({ type: Types.code })
   else if (/^(strong|b)$/.test(name))
-    serializations.push({ type: Types.bold })
+    markups.push({ type: Types.bold })
   else if (/^(em|i)$/.test(name))
-    serializations.push({ type: Types.italic })
+    markups.push({ type: Types.italic })
 
   if (/italic|oblique/.test(elem.style.fontStyle))
-    serializations.push({ type: Types.italic })
+    markups.push({ type: Types.italic })
   if (elem.style.fontWeight === 'bold' || elem.style.fontWeight >= 700)
-    serializations.push({ type: Types.bold })
+    markups.push({ type: Types.bold })
 
-  return serializations
+  return markups
 }
 
 /**

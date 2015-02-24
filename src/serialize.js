@@ -99,6 +99,14 @@ function Serialize (elem) {
     node = node.nextSibling
   }
 
+  // Account for styles on the element itself:
+  info = serializeInline(elem)
+  for (i = 0; i < info.length; i += 1) {
+    info[i].start = 0
+    info[i].end = this.length
+    this.addMarkups(info)
+  }
+
   this.mergeAdjacent()
 }
 
@@ -114,7 +122,7 @@ Serialize.prototype.addMarkups = function (toAdd) {
   var i
 
   if (!Array.isArray(toAdd))
-    toAdd = [toAdd]
+    return this._addMarkup(toAdd)
 
   for (i = 0; i < toAdd.length; i += 1)
     this._addMarkup(toAdd[i])
