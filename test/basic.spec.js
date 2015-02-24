@@ -285,6 +285,44 @@ describe('Serialize', function () {
     expect(result.markups).toEqual([])
   })
 
+  it('identify bold styling on the paragraph itself', function () {
+    this.elem.innerHTML = 'Stuff <b>and</b> <em>things</em>'
+    this.elem.style.fontWeight = 'bold'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.text).toEqual('Stuff and things')
+    expect(result.length).toEqual(16)
+    expect(result.markups).toEqual([{
+      type: Serialize.types.bold,
+      start: 0,
+      end: 16
+    }, {
+      type: Serialize.types.italic,
+      start: 10,
+      end: 16
+    }])
+  })
+
+  it('identify italic styling on the paragraph itself', function () {
+    this.elem.innerHTML = 'Stuff <b>and</b> <em>things</em>'
+    this.elem.style.fontStyle = 'italic'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.text).toEqual('Stuff and things')
+    expect(result.length).toEqual(16)
+    expect(result.markups).toEqual([{
+      type: Serialize.types.bold,
+      start: 6,
+      end: 9
+    }, {
+      type: Serialize.types.italic,
+      start: 0,
+      end: 16
+    }])
+  })
+
   describe('Serialize.fromJSON', function () {
 
     it('converts a stringified serialization to a live one.', function () {
