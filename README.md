@@ -166,16 +166,16 @@ This overrides the inherited `toString` to return the outerHTML of the Serializa
 
 ```js
 var p = document.createElement('p')
-p.textContent = 'A <em>B</em> C'
+p.innerHTML = 'A <em>B</em> C'
 
-var serialization = new Serialize(p)
-console.log('' + serialization)
+var s = new Serialize(p)
+console.log('' + s)
 // "<p>A <em>B</em> C</p>"
 ```
 
 ### Serialize.fromText( text [, tag] )
 
-Creates a serialization with the given String. The serialization will have no markups.
+Creates a serialization with the given String. The serialization will have no markups. The `type` property of the returned instance can optionally be specified using the `tag` argument, defaulting to `p`.
 
 ### Serialize.fromJSON( )
 
