@@ -56,9 +56,9 @@ This document tracks features added, behaviour changes, and bugs fixed in Serial
 
 ---
 
-### 1.x.y
+### 1.0.0 – 1.3.0
 
-The `1.x.y` releases are backports of the respective `2.x.y` changes.
+Versions `1.x.y` are backports of their respective `2.x.y` patches, respectively. In theory, the 1.0 releases had wider browser support; after turning on cloud testing, however, it was determined that Serialize had some serious compatibility issues with Internet Explorer versions 8 and earlier which were not worth fixing.
 
 ### 1.0.0
 

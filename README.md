@@ -43,7 +43,7 @@ gets converted to:
 
 Where `Serialize.types.*` is a number. Currently, only `<code>`, `<a>`, and various italic and bold types (elements, like `<b>`, `<strong>`, etc, but also other elements with, say, `style="font-weight: bold"`) are supported. If you need to support a broader range of inline elements, adding support is trivial.
 
-__NOTE__: as of v2, Serialize use getters and setters to automagically update the `length` property of a serialization when its text is changed. Be careful when manually updating the `length` property; in most cases, there should be no reason to do so. See [below][compat] for notes about browser support.
+__Note__: Serialize use getters and setters to automagically update the `length` property of a serialization when its text is changed; in most cases, there should be no reason to set the length of a serialization.
 
 ### Serialize#addMarkup( markup )
 
@@ -180,29 +180,11 @@ Creates a serialization with the given String. The serialization will have no ma
 
 If you have previously `JSON.stringify`’d a serialization, you can convert it to a “live” instance of Serialize by using this method.
 
-## Browser compatibility
-
-Because of Serialize’s use of getters and setters, the latest version of Serialize will not work in legacy browsers. More specifically, Serialize will only work in:
-
-| Browser | Version |
-| --- | :---: |
-| Firefox | `>= 4` |
-| Chrome | `>= 5` |
-| Internet Explorer | `>= 9` |
-| Opera | `>= 11.60` |
-| Safari | `>= 5.1` |
-
-(Based on Mozilla Developer Network’s compatibility tables for [`Object.defineProperty`][prop])
-
-If you need wider support, v1 of Serialize (`npm install serialize-elem@legacy`) is still supported; the only difference is the lack of getters and setters, so you’ll have to manually manage the `length` property when you directly update a serialization’s text.
-
 ## License
 
 MIT.
 
-[compat]: #browser-compatibility
 [replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 [substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 [substring]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 [toElement]: #serializationtoelement-
-[prop]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#Browser_compatibility
