@@ -75,6 +75,16 @@ describe('Serialize', function () {
     }])
   })
 
+  xit('should subtract markups where appropriate', function () {
+    this.elem.innerHTML = '<em><span style="font-style: normal;">One</span></em>'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.length).toEqual(3)
+    expect(result.text).toEqual('One')
+    expect(result.markups).toEqual([])
+  })
+
   it('should order markups by type.', function () {
     this.elem.innerHTML = 'Blue <em>is</em> not <code>red</code>'
 
