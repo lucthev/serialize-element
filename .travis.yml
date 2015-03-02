@@ -1,0 +1,21 @@
+notifications:
+  email: false
+language: node_js
+node_js:
+- '0.10'
+env:
+  matrix:
+    - BROWSER='Internet explorer' PLATFORM='Windows XP' VERSION='8.0'
+    - BROWSER='Internet explorer' PLATFORM='Windows XP' VERSION='7.0'
+    - BROWSER='Internet explorer' PLATFORM='Windows XP' VERSION='6.0'
+    - BROWSER='Firefox' PLATFORM='Windows XP' VERSION='3.5'
+    - BROWSER='Safari' PLATFORM='OS X 10.6' VERSION='5.1'
+    - BROWSER='Firefox' PLATFORM='Linux' VERSION='beta'
+  global:
+    - SAUCE_USERNAME=compose-ci
+    - SAUCE_ACCESS_KEY=60671366-2ef6-4ed3-8de0-cc95f065a41f
+addons:
+  sauce_connect: true
+install:
+  - npm config set spin false
+  - npm install -d --quiet

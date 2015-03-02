@@ -27,7 +27,7 @@ module.exports = function (config) {
 
     config.set({
       sauceLabs: {
-        testName: 'Compose unit tests',
+        testName: 'Serialize unit tests',
         startConnect: false,
         build: 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')',
         tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
