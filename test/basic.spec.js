@@ -351,6 +351,36 @@ describe('Serialize', function () {
     })
   })
 
+  describe('Serialize & JSON', function () {
+    it('should include all properties', function () {
+      this.elem.innerHTML = 'One'
+
+      var result = new Serialize(this.elem)
+
+      expect(JSON.parse(JSON.stringify(result))).toEqual({
+        text: 'One',
+        length: 3,
+        markups: [],
+        type: 'p'
+      })
+    })
+
+    it('should include custom properties', function () {
+      this.elem.innerHTML = 'One'
+
+      var result = new Serialize(this.elem)
+      result.foo = 'bar'
+
+      expect(JSON.parse(JSON.stringify(result))).toEqual({
+        text: 'One',
+        length: 3,
+        markups: [],
+        type: 'p',
+        foo: 'bar'
+      })
+    })
+  })
+
   describe('Serialize.fromText', function () {
 
     it('creates a serialization from a string.', function () {
