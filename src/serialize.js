@@ -1,10 +1,9 @@
 'use strict';
 
-var serializeInline = require('./inline').serializeInline,
-    mergeAdjacent = require('./adjacent'),
+var mergeAdjacent = require('./adjacent'),
     applyMarkup = require('./applyMarkup'),
     replaceNewlines = require('./replaceNewlines'),
-    replaceStr = require('./replace')
+    convert = require('./convert')
 
 /**
  * Serialize(elem) converts the given element to an abstract,
@@ -20,18 +19,13 @@ function Serialize (elem) {
   if (!elem || elem.nodeType !== Node.ELEMENT_NODE)
     throw new TypeError('Serialize can only serialize element nodes.')
 
-  var node = elem.firstChild,
-      children = [],
-      text = '',
-      depth = 0,
-      info,
-      i
+  var text = ''
 
   this.length = 0
   this.markups = []
   this.type = elem.nodeName.toLowerCase()
 
-  // Setting text should automatically set the length.
+  // Automatically update the length when setting the text.
   Object.defineProperty(this, 'text', {
     configurable: true,
     enumerable: true,
@@ -44,70 +38,7 @@ function Serialize (elem) {
     }
   })
 
-  while (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
-
-      // <br>s are interpreted as newlines.
-      if (node.nodeName === 'BR')
-        this.text += '\n'
-
-      // If the element has no children, we just ignore it.
-      if (!node.firstChild) {
-
-        // But we still have to account for the possibility it's the
-        // last element.
-        while (!node.nextSibling && depth) {
-          info = children.pop()
-          for (i = 0; i < info.length; i += 1)
-            info[i].end = this.length
-
-          this.addMarkups(info)
-
-          depth -= 1
-          node = node.parentNode
-        }
-
-        node = node.nextSibling
-        continue
-      }
-
-      info = serializeInline(node)
-      for (i = 0; i < info.length; i += 1)
-        info[i].start = this.length
-
-      children.push(info)
-
-      depth += 1
-      node = node.firstChild
-      continue
-    }
-
-    if (node.nodeType === Node.TEXT_NODE)
-      this.text += node.data
-
-    while (!node.nextSibling && depth) {
-      info = children.pop()
-      for (i = 0; i < info.length; i += 1)
-        info[i].end = this.length
-
-      this.addMarkups(info)
-
-      depth -= 1
-      node = node.parentNode
-    }
-
-    node = node.nextSibling
-  }
-
-  // Account for styles on the element itself:
-  info = serializeInline(elem)
-  for (i = 0; i < info.length; i += 1) {
-    info[i].start = 0
-    info[i].end = this.length
-    this.addMarkups(info)
-  }
-
-  this.mergeAdjacent()
+  convert(elem, this)
 }
 
 /**
@@ -253,7 +184,7 @@ Serialize.prototype.mergeAdjacent = function () {
  * @param {String || Function} substr
  * @return {Context}
  */
-Serialize.prototype.replace = replaceStr
+Serialize.prototype.replace = require('./replace')
 
 /**
  * substr(start, length) works like String#substr, returning a new
