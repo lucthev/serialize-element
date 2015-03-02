@@ -6,7 +6,7 @@ module.exports = function (config) {
 
   config.set({
     frameworks: ['jasmine'],
-    reporters: ['spec'],
+    reporters: ['dots'],
     files: [
       '../dist/serialize.js',
       './*.spec.js'
