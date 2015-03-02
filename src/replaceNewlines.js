@@ -12,7 +12,7 @@ function replaceNewlines (elem) {
       br
 
   while (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
+    if (node.nodeType === 1) { // Node.ELEMENT_NODE
 
       if (node.firstChild) {
         depth += 1

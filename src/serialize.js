@@ -4,6 +4,8 @@ var serializeInline = require('./inline').serializeInline,
     mergeAdjacent = require('./adjacent'),
     applyMarkup = require('./applyMarkup'),
     replaceNewlines = require('./replaceNewlines'),
+    objectKeys = require('object-keys'),
+    isArray = require('is-array'),
     replaceStr = require('./replace')
 
 /**
@@ -17,7 +19,7 @@ function Serialize (elem) {
   if (!(this instanceof Serialize))
     return new Serialize(elem)
 
-  if (!elem || elem.nodeType !== Node.ELEMENT_NODE)
+  if (!elem || elem.nodeType !== 1) // Node.ELEMENT_NODE
     throw new TypeError('Serialize can only serialize element nodes.')
 
   var node = elem.firstChild,
@@ -32,7 +34,7 @@ function Serialize (elem) {
   this.type = elem.nodeName.toLowerCase()
 
   while (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
+    if (node.nodeType === 1) { // Node.ELEMENT_NODE
 
       // <br>s are interpreted as newlines.
       if (node.nodeName === 'BR') {
@@ -71,7 +73,7 @@ function Serialize (elem) {
       continue
     }
 
-    if (node.nodeType === Node.TEXT_NODE) {
+    if (node.nodeType === 3) { // Node.TEXT_NODE
       this.length += node.data.length
       this.text += node.data
     }
@@ -112,7 +114,7 @@ function Serialize (elem) {
 Serialize.prototype.addMarkups = function (toAdd) {
   var i
 
-  if (!Array.isArray(toAdd))
+  if (!isArray(toAdd))
     return this._addMarkup(toAdd)
 
   for (i = 0; i < toAdd.length; i += 1)
@@ -415,9 +417,9 @@ Serialize.prototype.equals = function (other) {
   for (i = 0; i < this.markups.length; i += 1) {
     otherMarkup = other.markups[i]
     markup = this.markups[i]
-    keys = Object.keys(markup)
+    keys = objectKeys(markup)
 
-    if (keys.length !== Object.keys(otherMarkup).length)
+    if (keys.length !== objectKeys(otherMarkup).length)
       return false
 
     for (j = 0; j < keys.length; j += 1) {
@@ -458,7 +460,11 @@ Serialize.prototype.toElement = function () {
  * @return {String}
  */
 Serialize.prototype.toString = function () {
-  return this.toElement().outerHTML
+  var container = document.createElement('div')
+
+  // outerHTML is not supported in old versions of Firefox.
+  container.appendChild(this.toElement())
+  return container.innerHTML
 }
 
 /**

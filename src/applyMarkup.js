@@ -17,7 +17,7 @@ function applyMarkup (elem, markup) {
       next
 
   while (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
+    if (node.nodeType === 1) { // Node.ELEMENT_NODE
       node = node.firstChild
       depth += 1
 
