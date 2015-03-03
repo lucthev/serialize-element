@@ -19,7 +19,6 @@ describe('Serialize#addMarkup should', function () {
       start: 0,
       end: 3
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.bold,
@@ -37,7 +36,6 @@ describe('Serialize#addMarkup should', function () {
       start: 4,
       end: 7
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.bold,
@@ -59,7 +57,6 @@ describe('Serialize#addMarkup should', function () {
       start: 4,
       end: 7
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.bold,
@@ -81,7 +78,6 @@ describe('Serialize#addMarkup should', function () {
       start: 0,
       end: 3
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
@@ -104,7 +100,6 @@ describe('Serialize#addMarkup should', function () {
       end: 2,
       href: 'http://www.example.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -124,7 +119,6 @@ describe('Serialize#addMarkup should', function () {
       end: 1,
       href: 'http://www.example.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -144,7 +138,6 @@ describe('Serialize#addMarkup should', function () {
       end: 3,
       href: 'http://www.example.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -164,7 +157,6 @@ describe('Serialize#addMarkup should', function () {
       end: 2,
       href: 'http://www.example.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -184,7 +176,6 @@ describe('Serialize#addMarkup should', function () {
       end: 2,
       href: 'http://bar.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -209,7 +200,6 @@ describe('Serialize#addMarkup should', function () {
       end: 3,
       href: 'http://bar.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -234,7 +224,6 @@ describe('Serialize#addMarkup should', function () {
       end: 2,
       href: 'http://foo.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -259,7 +248,6 @@ describe('Serialize#addMarkup should', function () {
       end: 16,
       href: 'http://foo.com'
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.link,
@@ -283,7 +271,6 @@ describe('Serialize#addMarkup should', function () {
       start: 1,
       end: 2
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
@@ -301,7 +288,6 @@ describe('Serialize#addMarkup should', function () {
       start: 0,
       end: 1
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
@@ -319,7 +305,6 @@ describe('Serialize#addMarkup should', function () {
       start: 1,
       end: 3
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
@@ -337,7 +322,6 @@ describe('Serialize#addMarkup should', function () {
       start: 0,
       end: 2
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
@@ -355,7 +339,6 @@ describe('Serialize#addMarkup should', function () {
       start: 1,
       end: 16
     })
-    result.mergeAdjacent()
 
     expect(result.markups).toEqual([{
       type: types.italic,
