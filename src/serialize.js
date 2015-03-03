@@ -71,28 +71,25 @@ Serialize.prototype.addMarkups = function (toAdd) {
  */
 Serialize.prototype.addMarkup =
 Serialize.prototype._addMarkup = function (toAdd) {
-  var i = 0
+  var index = 0,
+      markup
 
-  while (this.markups[i] && toAdd.type > this.markups[i].type)
-    i += 1
+  // Nested anchors are invalid according to the HTML spec.
+  if (toAdd.type === Serialize.types.link)
+    this.removeMarkup(toAdd)
 
-  while (this.markups[i] &&
-         toAdd.type === this.markups[i].type &&
-         toAdd.start > this.markups[i].start) {
+  while (index < this.markups.length) {
+    markup = this.markups[index]
 
-    i += 1
+    if (toAdd.type < markup.type)
+      break
+    if (toAdd.type === markup.type && toAdd.start <= markup.start)
+      break
+
+    index += 1
   }
 
-  while (this.markups[i] &&
-         toAdd.type === this.markups[i].type &&
-         toAdd.start === this.markups[i].start &&
-         toAdd.end > this.markups[i].end) {
-
-    i += 1
-  }
-
-  this.markups.splice(i, 0, toAdd)
-
+  this.markups.splice(index, 0, toAdd)
   return this
 }
 
@@ -262,7 +259,6 @@ Serialize.prototype.substring = function (start, end) {
 
 /**
  * append(serialization) concatenates two serializations. It's like the
- * '+' operator for strings. Returns a new serialization.
  * '+' operator for strings. Returns a new serialization. If toAdd is a
  * string, markups that terminate at the end of the serialization are
  * extended so as to still terminate at the end of the returned

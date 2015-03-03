@@ -199,7 +199,7 @@ describe('Serialize#addMarkup should', function () {
     }])
   })
 
-  xit('truncate a previous, overlapping, non-identical link', function () {
+  it('truncate a previous, overlapping, non-identical link', function () {
     p.innerHTML = '<a href="http://foo.com">XY</a>Z'
 
     var result = new Serialize(p)
@@ -224,7 +224,7 @@ describe('Serialize#addMarkup should', function () {
     }])
   })
 
-  xit('truncate a subsequent, overlapping, non-identical link', function () {
+  it('truncate a subsequent, overlapping, non-identical link', function () {
     p.innerHTML = 'X<a href="http://bar.com">YZ</a>'
 
     var result = new Serialize(p)
@@ -249,7 +249,7 @@ describe('Serialize#addMarkup should', function () {
     }])
   })
 
-  xit('truncate all subsequent, overlapping links', function () {
+  it('truncate all subsequent, overlapping links', function () {
     p.innerHTML = 'One <a href="http://bar.com">two</a> <a href="http://baz.com">three</a> <a href="http://quux.com">four</a>'
 
     var result = new Serialize(p)
