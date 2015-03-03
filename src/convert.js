@@ -18,6 +18,21 @@ function convert (elem, s) {
       info,
       i
 
+  function pop () {
+    while (!node.nextSibling && depth > 0) {
+      info = children.pop()
+      for (i = 0; i < info.length; i += 1)
+        info[i].end = s.length
+
+      s.addMarkups(info)
+
+      depth -= 1
+      node = node.parentNode
+    }
+
+    return node.nextSibling
+  }
+
   while (node) {
     if (node.nodeType === Node.ELEMENT_NODE) {
 
@@ -30,18 +45,7 @@ function convert (elem, s) {
 
         // But we still have to account for the possibility it's the
         // last element.
-        while (!node.nextSibling && depth) {
-          info = children.pop()
-          for (i = 0; i < info.length; i += 1)
-            info[i].end = s.length
-
-          s.addMarkups(info)
-
-          depth -= 1
-          node = node.parentNode
-        }
-
-        node = node.nextSibling
+        node = pop()
         continue
       }
 
@@ -59,18 +63,7 @@ function convert (elem, s) {
     if (node.nodeType === Node.TEXT_NODE)
       s.text += node.data
 
-    while (!node.nextSibling && depth) {
-      info = children.pop()
-      for (i = 0; i < info.length; i += 1)
-        info[i].end = s.length
-
-      s.addMarkups(info)
-
-      depth -= 1
-      node = node.parentNode
-    }
-
-    node = node.nextSibling
+    node = pop()
   }
 
   // Account for styles on the element itself:
