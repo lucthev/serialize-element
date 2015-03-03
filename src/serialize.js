@@ -53,10 +53,10 @@ Serialize.prototype.addMarkups = function (toAdd) {
   var i
 
   if (!Array.isArray(toAdd))
-    return this._addMarkup(toAdd)
+    return this.addMarkup(toAdd)
 
   for (i = 0; i < toAdd.length; i += 1)
-    this._addMarkup(toAdd[i])
+    this.addMarkup(toAdd[i])
 
   return this
 }
@@ -92,6 +92,17 @@ Serialize.prototype._addMarkup = function (toAdd) {
   }
 
   this.markups.splice(i, 0, toAdd)
+
+  return this
+}
+
+/**
+ * Serialize#mergeAdjacent() merges adjacent markups of the same type.
+ *
+ * @return {Context}
+ */
+Serialize.prototype.mergeAdjacent = function () {
+  this.markups = mergeAdjacent(this.markups)
 
   return this
 }
@@ -163,17 +174,6 @@ Serialize.prototype.removeMarkup = function (toRemove) {
 }
 
 /**
- * Serialize#mergeAdjacent() merges adjacent markups of the same type.
- *
- * @return {Context}
- */
-Serialize.prototype.mergeAdjacent = function () {
-  this.markups = mergeAdjacent(this.markups)
-
-  return this
-}
-
-/**
  * replace(match, str, index) replaces all occurences of 'match' in a
  * serialization with the string 'substr', updating markups as appropriate.
  * 'substr' can also be a String#replace appropriate function, with a
@@ -227,7 +227,7 @@ Serialize.prototype.substr = function (start, length) {
       if (markup.href !== undefined)
         newMarkup.href = markup.href
 
-      substr._addMarkup(newMarkup)
+      substr.addMarkup(newMarkup)
     }
   }
 
@@ -310,7 +310,7 @@ Serialize.prototype.append = function (toAdd) {
     if (markup.href !== undefined)
       newMarkup.href = markup.href
 
-    serialization._addMarkup(newMarkup)
+    serialization.addMarkup(newMarkup)
   }
 
   for (i = 0; i < toAdd.markups.length; i += 1) {
@@ -325,7 +325,7 @@ Serialize.prototype.append = function (toAdd) {
     if (markup.href !== undefined)
       newMarkup.href = markup.href
 
-    serialization._addMarkup(newMarkup)
+    serialization.addMarkup(newMarkup)
   }
 
   serialization.mergeAdjacent()
