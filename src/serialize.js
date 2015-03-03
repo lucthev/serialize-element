@@ -3,6 +3,7 @@
 var mergeAdjacent = require('./mergeAdjacent'),
     applyMarkup = require('./applyMarkup'),
     replaceNewlines = require('./replaceNewlines'),
+    assign = require('object-assign'),
     convert = require('./convert')
 
 /**
@@ -271,64 +272,35 @@ Serialize.prototype.substring = function (start, end) {
  * @return {Serialize}
  */
 Serialize.prototype.append = function (toAdd) {
-  var serialization,
-      newMarkup,
-      markup,
-      i
+  var s = this.substr(0)
 
   if (!toAdd)
-    return this.substr(0)
+    return s
 
   if (typeof toAdd === 'string') {
-    serialization = this.substr(0)
-
-    for (i = 0; i < serialization.markups.length; i += 1) {
-      markup = serialization.markups[i]
-
-      if (markup.end === serialization.length)
+    s.markups.forEach(function (markup) {
+      if (markup.end === s.length)
         markup.end += toAdd.length
-    }
+    })
 
-    serialization.text += toAdd
-    return serialization
+    s.text += toAdd
+    return s
   }
 
-  serialization = new Serialize(document.createElement(this.type))
-  serialization.text = this.text + toAdd.text
+  s.text += toAdd.text
 
-  for (i = 0; i < this.markups.length; i += 1) {
-    markup = this.markups[i]
+  this.markups.forEach(function (markup) {
+    s.addMarkup(assign({}, markup))
+  })
 
-    newMarkup = {
-      type: markup.type,
-      start: markup.start,
-      end: markup.end
-    }
+  toAdd.markups.forEach(function (markup) {
+    markup = assign({}, markup)
+    markup.start += this.length
+    markup.end += this.length
+    s.addMarkup(markup)
+  }, this)
 
-    if (markup.href !== undefined)
-      newMarkup.href = markup.href
-
-    serialization.addMarkup(newMarkup)
-  }
-
-  for (i = 0; i < toAdd.markups.length; i += 1) {
-    markup = toAdd.markups[i]
-
-    newMarkup = {
-      type: markup.type,
-      start: markup.start + this.length,
-      end: markup.end + this.length
-    }
-
-    if (markup.href !== undefined)
-      newMarkup.href = markup.href
-
-    serialization.addMarkup(newMarkup)
-  }
-
-  serialization.mergeAdjacent()
-
-  return serialization
+  return s
 }
 
 /**
