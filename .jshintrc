@@ -6,6 +6,7 @@
   "eqeqeq": true,
   "browser": true,
   "devel": true,
+  "newcap": false,
   "globalstrict": true,
   "validthis": true,
   "globals": {

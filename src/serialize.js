@@ -17,7 +17,7 @@ function Serialize (elem) {
     return new Serialize(elem)
 
   if (!elem || elem.nodeType !== Node.ELEMENT_NODE)
-    throw new TypeError('Serialize can only serialize element nodes.')
+    throw TypeError('Serialize can only serialize element nodes.')
 
   var text = ''
 
@@ -410,15 +410,10 @@ Serialize.prototype.toString = function () {
  * @return {Serialize}
  */
 Serialize.fromText = function (text, tag) {
-  var serialization
+  var s = new this(document.createElement(tag || 'p'))
 
-  tag = tag || 'p'
-  serialization = new this(document.createElement(tag))
-
-  // Other properties will already be as we want them.
-  serialization.text = text
-
-  return serialization
+  s.text = text
+  return s
 }
 
 /**
@@ -430,17 +425,17 @@ Serialize.fromText = function (text, tag) {
  * @return {Serialize}
  */
 Serialize.fromJSON = function (json) {
-  var result = JSON.parse(json),
-      serialization = new Serialize(document.createElement('p'))
+  var s = new this(document.createElement('p')),
+      result = JSON.parse(json)
 
   if (typeof result.text !== 'string' || !result.type)
-    throw new TypeError('Invalid JSON serialization.')
+    throw TypeError('Required properties: "type" and "text"')
 
-  serialization.type = result.type
-  serialization.text = result.text
-  serialization.markups = result.markups || []
+  s.type = result.type
+  s.text = result.text
+  s.markups = result.markups || []
 
-  return serialization
+  return s
 }
 
 // Expose the type identifiers.
