@@ -1,4 +1,4 @@
-/* global describe, it, expect, Serialize */
+/* jshint jasmine:true *//* global Serialize */
 
 'use strict';
 

@@ -1,4 +1,4 @@
-/* global describe, it, expect, Serialize, beforeEach, afterEach */
+/* jshint jasmine:true *//* global Serialize */
 'use strict';
 
 var Types = Serialize.types
