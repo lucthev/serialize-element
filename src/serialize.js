@@ -304,38 +304,29 @@ Serialize.prototype.append = function (toAdd) {
 }
 
 /**
- * Serialize#equals(other) determines if two Serializations are
- * equivalent. Continuing with the comparison to strings, it’s like
- * the == operator.
+ * Serialize#equals(other) determines if two instances of Serialize
+ * are equivalent. Continuing with the comparison to strings, it’s
+ * like the equality operator.
  *
  * @param {Serialize} other
  * @return {Boolean}
  */
 Serialize.prototype.equals = function (other) {
-  var otherMarkup,
-      markup,
-      keys,
-      i, j
+  return (
+    this.type === other.type &&
+    this.text === other.text &&
+    this.markups.length === other.markups.length &&
+    this.markups.every(function compareMarkups (markup, index) {
+      var otherMarkup = other.markups[index]
 
-  if (this.type !== other.type || this.text !== other.text ||
-      this.markups.length !== other.markups.length)
-    return false
-
-  for (i = 0; i < this.markups.length; i += 1) {
-    otherMarkup = other.markups[i]
-    markup = this.markups[i]
-    keys = Object.keys(markup)
-
-    if (keys.length !== Object.keys(otherMarkup).length)
-      return false
-
-    for (j = 0; j < keys.length; j += 1) {
-      if (markup[keys[j]] !== otherMarkup[keys[j]])
-        return false
-    }
-  }
-
-  return true
+      return (
+        markup.type === otherMarkup.type &&
+        markup.href === otherMarkup.href &&
+        markup.start === otherMarkup.start &&
+        markup.end === otherMarkup.end
+      )
+    })
+  )
 }
 
 /**
