@@ -2,6 +2,14 @@
 
 This document tracks features added, behaviour changes, and bugs fixed in Serialize. Generally, Serialize follows [Semver](http://semver.org/); unless you’ve been relying on buggy behaviour, you should have no problem upgrading to new minor and patch versions.
 
+### 2.4.0
+
+- Serialize now recognizes when to remove markups while converting elements. For example, `<p><em style="font-style: normal;">Foo</em></p>` will have no markups once serialized.
+- Serialize is now fully subclassable.
+- Invalid markups can no longer be added. Invalid markups are those whose start point is before or equal to their end point.
+- When adding a link markup, other links will be truncated or removed so as to not overlap with the markup being added. Previously, it was possible to create overlapping links with different `href`s; this is no longer the case.
+- Markups are automatically merged after adding them. There is no longer any reason to call `Serialize#mergeAdjacent` after adding markups.
+
 ### 2.3.0
 
 - Serialize now accounts for styles on the given elements. For example, the serialization of `<p style="font-weight: bold;">Foo</p>` will have a bold markup spanning the length of the serialization’s text.
