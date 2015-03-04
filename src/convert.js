@@ -12,67 +12,41 @@ var serializeInline = require('./inline').serializeInline
  * @param {Serialize} s
  */
 function convert (elem, s) {
-  var node = elem.firstChild,
+  var node = elem,
       children = [],
-      depth = 0,
       info,
       i
 
-  function pop () {
-    while (!node.nextSibling && depth > 0) {
-      info = children.pop()
-      for (i = 0; i < info.length; i += 1)
-        info[i].end = s.length
-
-      s.addMarkups(info)
-
-      depth -= 1
-      node = node.parentNode
-    }
-
-    return node.nextSibling
-  }
-
   while (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
-
-      // <br>s are interpreted as newlines.
-      if (node.nodeName === 'BR')
-        s.text += '\n'
-
-      // If the element has no children, we just ignore it.
-      if (!node.firstChild) {
-
-        // But we still have to account for the possibility it's the
-        // last element.
-        node = pop()
-        continue
-      }
-
+    if (node.nodeType === Node.ELEMENT_NODE && node.firstChild) {
       info = serializeInline(node)
       for (i = 0; i < info.length; i += 1)
         info[i].start = s.length
 
       children.push(info)
 
-      depth += 1
       node = node.firstChild
       continue
     }
 
     if (node.nodeType === Node.TEXT_NODE)
       s.text += node.data
+    else if (node.nodeName === 'BR')
+      s.text += '\n'
 
-    node = pop()
+    while (!node.nextSibling && node !== elem) {
+      info = children.pop()
+      for (i = 0; i < info.length; i += 1)
+        info[i].end = s.length
+
+      s.addMarkups(info)
+
+      node = node.parentNode
+    }
+
+    if (node === elem)
+      break
+
+    node = node.nextSibling
   }
-
-  // Account for styles on the element itself:
-  info = serializeInline(elem)
-  for (i = 0; i < info.length; i += 1) {
-    info[i].start = 0
-    info[i].end = s.length
-    s.addMarkups(info)
-  }
-
-  s.mergeAdjacent()
 }

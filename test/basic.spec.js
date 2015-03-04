@@ -9,11 +9,20 @@ describe('Serialize', function () {
   beforeEach(function () {
     this.elem = document.createElement('p')
 
+    // Make some “guard” elements around the target element; only the
+    // target should ever be serialized.
+    var preguard = document.createElement('p')
+    var postguard = document.createElement('p')
+    preguard.textContent = postguard.textContent = 'THIS IS WRONG!'
+
+    document.body.appendChild(preguard)
     document.body.appendChild(this.elem)
+    document.body.appendChild(postguard)
   })
 
   afterEach(function () {
-    document.body.removeChild(this.elem)
+    while (document.body.firstChild)
+      document.body.removeChild(document.body.firstChild)
   })
 
   it('serializes elements into abstract objects.', function () {
