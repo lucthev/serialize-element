@@ -12,18 +12,18 @@ var serializeInline = require('./inline').serializeInline
  * @param {Serialize} s
  */
 function convert (elem, s) {
-  var node = elem,
-      children = [],
-      info,
+  var allMarkups = [],
+      node = elem,
+      markups,
       i
 
   while (node) {
     if (node.nodeType === Node.ELEMENT_NODE && node.firstChild) {
-      info = serializeInline(node)
-      for (i = 0; i < info.length; i += 1)
-        info[i].start = s.length
+      markups = serializeInline(node)
+      for (i = 0; i < markups.length; i += 1)
+        markups[i].start = s.length
 
-      children.push(info)
+      allMarkups.push(markups)
 
       node = node.firstChild
       continue
@@ -35,11 +35,11 @@ function convert (elem, s) {
       s.text += '\n'
 
     while (!node.nextSibling && node !== elem) {
-      info = children.pop()
-      for (i = 0; i < info.length; i += 1)
-        info[i].end = s.length
+      markups = allMarkups.pop()
+      for (i = 0; i < markups.length; i += 1)
+        markups[i].end = s.length
 
-      s.addMarkups(info)
+      allMarkups.unshift(markups)
 
       node = node.parentNode
     }
@@ -49,4 +49,8 @@ function convert (elem, s) {
 
     node = node.nextSibling
   }
+
+  s.addMarkups(allMarkups.reduce(function (arr, markups) {
+    return arr.concat(markups)
+  }, []))
 }
