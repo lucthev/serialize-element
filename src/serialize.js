@@ -75,6 +75,10 @@ Serialize.prototype._addMarkup = function (toAdd) {
   var index = 0,
       markup
 
+  // Don’t add invalid markups.
+  if (toAdd.start >= toAdd.end)
+    return this
+
   // Nested anchors are invalid according to the HTML spec.
   if (toAdd.type === Serialize.types.link)
     this.removeMarkup(toAdd)

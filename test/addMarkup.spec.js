@@ -27,6 +27,25 @@ describe('Serialize#addMarkup should', function () {
     }])
   })
 
+  it('not add a collapsed or backwards markup', function () {
+    p.innerHTML = 'One'
+
+    var result = new Serialize(p)
+    result.addMarkup({
+      type: types.bold,
+      start: 1,
+      end: 1
+    })
+
+    result.addMarkup({
+      type: types.italic,
+      start: 2,
+      end: 1
+    })
+
+    expect(result.markups).toEqual([])
+  })
+
   it('place higher types after lower ones', function () {
     p.innerHTML = '<strong>One</strong> two'
 
