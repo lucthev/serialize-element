@@ -199,14 +199,11 @@ Serialize.prototype.replace = require('./replace')
  * @return {Serialize}
  */
 Serialize.prototype.substr = function (start, length) {
-  var substr = new Serialize(document.createElement(this.type)),
-      newMarkup,
-      markup,
-      end,
-      i
+  var s = new Serialize(document.createElement(this.type)),
+      end
 
   if (!this.length || length <= 0)
-    return substr
+    return s
 
   while (start < 0)
     start = this.length + start
@@ -216,26 +213,16 @@ Serialize.prototype.substr = function (start, length) {
 
   end = start + length
 
-  substr.text = this.text.substr(start, length)
+  s.text = this.text.substr(start, length)
+  this.markups.forEach(function (markup) {
+    markup = assign({}, markup)
+    markup.start = markup.start > start ? markup.start - start : 0
+    markup.end = markup.end < end ? markup.end - start : end - start
 
-  for (i = 0; i < this.markups.length; i += 1) {
-    markup = this.markups[i]
+    s.addMarkup(markup)
+  })
 
-    if (markup.start < end && markup.end > start) {
-      newMarkup = {
-        type: markup.type,
-        start: markup.start > start ? markup.start - start : 0,
-        end: markup.end < end ? markup.end - start : end - start
-      }
-
-      if (markup.href !== undefined)
-        newMarkup.href = markup.href
-
-      substr.addMarkup(newMarkup)
-    }
-  }
-
-  return substr
+  return s
 }
 
 /**
