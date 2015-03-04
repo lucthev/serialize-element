@@ -24,10 +24,43 @@ exports.serializeInline = function (elem) {
 
   if (/italic|oblique/.test(elem.style.fontStyle))
     markups.push({ type: Types.italic })
-  if (elem.style.fontWeight === 'bold' || elem.style.fontWeight >= 700)
+  else if (elem.style.fontStyle === 'normal')
+    markups.push({ type: -Types.italic })
+
+  if (isBold(elem.style.fontWeight))
     markups.push({ type: Types.bold })
+  else if (isLight(elem.style.fontWeight))
+    markups.push({ type : -Types.bold })
 
   return markups
+}
+
+/**
+ * isBold(weight) determines whether the given font-weight string
+ * represents a bold styling.
+ *
+ * @param {String}
+ * @return {Boolean}
+ */
+function isBold (weight) {
+  return (
+    /bold/.test(weight) ||
+    (/\d00/.test(weight) && +weight >= 700)
+  )
+}
+
+/**
+ * isLight(weight) determines whether the given font-weight string
+ * represents a light or normal styling.
+ *
+ * @param {String}
+ * @return {Boolean}
+ */
+function isLight (weight) {
+  return (
+    /light|normal/.test(weight) ||
+    (/\d00/.test(weight) && +weight < 700)
+  )
 }
 
 /**
@@ -54,7 +87,7 @@ exports.createInline = function (markup) {
       break
 
     default:
-      throw new Error('Unknown markup type')
+      throw Error('Unknown markup type')
   }
 
   markupElem = document.createElement(markupElem)

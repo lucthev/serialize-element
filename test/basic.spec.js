@@ -84,7 +84,7 @@ describe('Serialize', function () {
     }])
   })
 
-  xit('should subtract markups where appropriate', function () {
+  it('should subtract markups where appropriate', function () {
     this.elem.innerHTML = '<em><span style="font-style: normal;">One</span></em>'
 
     var result = new Serialize(this.elem)
@@ -92,6 +92,28 @@ describe('Serialize', function () {
     expect(result.length).toEqual(3)
     expect(result.text).toEqual('One')
     expect(result.markups).toEqual([])
+  })
+
+  it('apply markups from the outside in', function () {
+    this.elem.innerHTML = '<em style="font-style: normal;"><strong>O<em style="font-weight: lighter">n</em>e</strong></em>'
+
+    var result = new Serialize(this.elem)
+
+    expect(result.length).toEqual(3)
+    expect(result.text).toEqual('One')
+    expect(result.markups).toEqual([{
+      type: Types.bold,
+      start: 0,
+      end: 1
+    }, {
+      type: Types.bold,
+      start: 2,
+      end: 3
+    }, {
+      type: Types.italic,
+      start: 1,
+      end: 2
+    }])
   })
 
   it('should order markups by type.', function () {

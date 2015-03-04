@@ -80,6 +80,12 @@ Serialize.prototype._addMarkup = function (toAdd) {
   if (toAdd.start >= toAdd.end)
     return this
 
+  // If the type of the given markup is negative, remove that markup.
+  if (toAdd.type < 0) {
+    toAdd.type *= -1
+    return this.removeMarkup(toAdd)
+  }
+
   // Nested anchors are invalid according to the HTML spec.
   if (toAdd.type === Serialize.types.link)
     this.removeMarkup(toAdd)
