@@ -419,4 +419,50 @@ describe('Serialize', function () {
       expect('' + result).toEqual(html)
     })
   })
+
+  describe('subclassing', function () {
+    function inherits (ctor, superCtor) {
+      ctor.super_ = superCtor;
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+    }
+
+    it('should be subclassable', function () {
+      function X (elem) {
+        Serialize.call(this, elem)
+      }
+
+      inherits(X, Serialize)
+      X.fromJSON = Serialize.fromJSON
+      X.fromText = Serialize.fromText
+      X.types = Serialize.types
+
+      var p = document.createElement('p')
+      p.innerHTML = '<em>A</em>BC'
+
+      var s = new X(p)
+
+      expect(s.type).toEqual('p')
+      expect(s.text).toEqual('ABC')
+      expect(s.length).toEqual(3)
+      expect(s.markups).toEqual([{
+        type: X.types.italic,
+        start: 0,
+        end: 1
+      }])
+
+      expect(s.substr(0) instanceof X).toBe(true)
+      expect(s.append('foo') instanceof X).toBe(true)
+      expect(s.substring(0) instanceof X).toBe(true)
+      expect(s.replace('A', 'B') instanceof X).toBe(true)
+      expect(X.fromText('foo') instanceof X).toBe(true)
+      expect(X.fromJSON(JSON.stringify(s)) instanceof X).toBe(true)
+    })
+  })
 })

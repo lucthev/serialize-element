@@ -191,7 +191,7 @@ Serialize.prototype.replace = require('./replace')
  * @return {Serialize}
  */
 Serialize.prototype.substr = function (start, length) {
-  var s = new Serialize(document.createElement(this.type)),
+  var s = new this.constructor(document.createElement(this.type)),
       end
 
   if (!this.length || length <= 0)
