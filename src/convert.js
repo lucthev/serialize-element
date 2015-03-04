@@ -12,9 +12,8 @@ var serializeInline = require('./inline').serializeInline
  * @param {Serialize} s
  */
 function convert (elem, s) {
-  var node = elem.firstChild,
+  var node = elem,
       children = [],
-      depth = 0,
       info,
       i
 
@@ -26,7 +25,6 @@ function convert (elem, s) {
 
       children.push(info)
 
-      depth += 1
       node = node.firstChild
       continue
     }
@@ -36,25 +34,19 @@ function convert (elem, s) {
     else if (node.nodeName === 'BR')
       s.text += '\n'
 
-    while (!node.nextSibling && depth > 0) {
+    while (!node.nextSibling && node !== elem) {
       info = children.pop()
       for (i = 0; i < info.length; i += 1)
         info[i].end = s.length
 
       s.addMarkups(info)
 
-      depth -= 1
       node = node.parentNode
     }
 
-    node = node.nextSibling
-  }
+    if (node === elem)
+      break
 
-  // Account for styles on the element itself:
-  info = serializeInline(elem)
-  for (i = 0; i < info.length; i += 1) {
-    info[i].start = 0
-    info[i].end = s.length
-    s.addMarkups(info)
+    node = node.nextSibling
   }
 }
