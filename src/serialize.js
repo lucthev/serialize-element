@@ -1,5 +1,7 @@
 'use strict';
 
+module.exports = Serialize
+
 var mergeAdjacent = require('./mergeAdjacent'),
     applyMarkup = require('./applyMarkup'),
     replaceNewlines = require('./replaceNewlines'),
@@ -51,13 +53,12 @@ function Serialize (elem) {
  * @return {Context}
  */
 Serialize.prototype.addMarkups = function (toAdd) {
-  var i
-
   if (!Array.isArray(toAdd))
     return this.addMarkup(toAdd)
 
-  for (i = 0; i < toAdd.length; i += 1)
-    this.addMarkup(toAdd[i])
+  toAdd.forEach(function (markup) {
+    this.addMarkup(markup)
+  }, this)
 
   return this
 }
@@ -133,20 +134,11 @@ Serialize.prototype.removeMarkup = function (toRemove) {
     if (markup.type !== toRemove.type) continue
 
     if (markup.start <= toRemove.start && markup.end >= toRemove.end) {
-      before = {
-        type: markup.type,
-        start: markup.start,
-        end: toRemove.start
-      }
+      before = assign({}, markup)
+      before.end = toRemove.start
 
-      after = {
-        type: markup.type,
-        start: toRemove.end,
-        end: markup.end
-      }
-
-      if (markup.href !== undefined)
-        before.href = after.href = markup.href
+      after = assign({}, markup)
+      after.start = toRemove.end
 
       if (after.start !== after.end && before.start !== before.end) {
         this.markups.splice(i, 1, before, after)
@@ -234,13 +226,8 @@ Serialize.prototype.substr = function (start, length) {
  * @return {Serialize}
  */
 Serialize.prototype.substring = function (start, end) {
-  var temp
-
-  if (end < start) {
-    temp = start
-    start = end
-    end = temp
-  }
+  if (end < start)
+    return this.substring(end, start)
 
   if (start < 0) start = 0
   if (end < 0) end = 0
@@ -392,5 +379,3 @@ Serialize.fromJSON = function (json) {
 
 // Expose the type identifiers.
 Serialize.types = require('./types')
-
-module.exports = Serialize
