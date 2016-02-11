@@ -69,7 +69,6 @@ Serialize.prototype.addMarkups = function (toAdd) {
  *
  * @param {Object} toAdd
  * @return {Context}
- * @api Private
  */
 Serialize.prototype.addMarkup =
 Serialize.prototype._addMarkup = function (toAdd) {
@@ -110,7 +109,7 @@ Serialize.prototype._addMarkup = function (toAdd) {
  * Serialize#mergeAdjacent() doesn’t do anything. Serialize#addMarkup()
  * used to not merge markups after adding them, but, now that it does,
  * a method to explicitly do so is redundant. It is kept only for
- * backwards compatbility.
+ * backwards compatibility.
  *
  * @return {Context}
  */
