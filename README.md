@@ -1,16 +1,16 @@
-# Serialize
+# serialize-elem
 
 Manipulate block elements as if they were text.
 
 ## Installation
 
-```
-$ npm install serialize-elem
-```
+Install [using npm][]:
 
-## Motivation
+`npm install serialize-elem`
 
-Serialize’s primary use case is in-browser rich text editing. Serialize enables a powerful method of making edits to the DOM by abstracting away its difficulties and normalizing certain behaviours. For example, consider the following fragments of HTML:
+## Usage
+
+The primary use case for this module is as a building block for web-based rich text editors. Serialize abstracts differences in DOM representation, enabling easier and more consistent editing experiences. For example, consider the following fragments of HTML:
 
 ```html
 <strong><em>Baggins</em></strong>
@@ -19,197 +19,141 @@ Serialize’s primary use case is in-browser rich text editing. Serialize enable
 <em><strong>Bagg</strong></em><strong><em>ins</em></strong>
 ```
 
-Although nothing visually distinguishes these snippets once rendered, your editor needs to know how to recognize and deal with all of the different forms; this is hard to reason about, and prone to error. Serialize eliminates these frustrations by representing block elements as text; inline stylings are stored as markups that can be applied to the text. By merging similar adjacent or overlapping markups, and applying those markups in a consistent manner when converting back to DOM elements, Serialize eliminates these inconsistencies.
+These fragments are indistinguishable once rendered, but the differences in structure can be difficult to work with when building a rich text editor. Serialize abstracts away the differences by storing block elements as strings of text, and inline markup as styles that can be applied to the text. By converting to and from DOM elements in a consistent manner, Serialize makes RTE operations simpler and easier to reason about.
 
-If you’d like to gain a better understanding of the motivations behind Serialize, see [here][medium].
+Example usage:
+
+```js
+import Serialize from 'serialize-elem'
+
+let p = document.createElement('p')
+p.innerHTML = 'Some <em>sample text</em>'
+
+let block = new Serialize(p)
+// Serialize {
+//   type: "p",
+//   text: "Some sample text",
+//   length: 16,
+//   markups: [
+//     {
+//       type: Serialize.types.italic,
+//       start: 5,
+//       end: 16
+//     }
+//   ]
+// }
+
+block.type = 'h2'
+block.removeMarkup({               // Remove emphasis from " text"
+  type: Serialize.types.italic,
+  start: 11,
+  end: 16
+})
+block.replace('sample', 'cool')
+
+block.toElement()
+// <h2>Some <em>cool</em> text</h2>
+```
 
 ## API
 
-### var s = new Serialize( element )
+#### new Serialize( element )
 
-Serializes the element into an object. Example:
+Constructor. A `Serialize` object has the following properties:
 
-```html
-<p>Some <b>bold</b> and <em>italic</em> text</p>
-```
+- `type`: String, the lowercase `tagName` of `element`
+- `text`: String, the text contained in `element`
+- `length`: getter for the length of `text`
+- `markups`: Array of markup objects. Each markup object has the following properties:
+  - `type`: Number representing the type of markup. One of `Serialize.types.{bold,italic,link,code}`
+  - `start`: index indicating the start of the markup in the text
+  - `end`: index indicating the end of the markup in the text
+  - `href`: for link types, the `href` attribute of the link
 
-gets converted to:
+#### Serialize#addMarkup( markup )
 
-```js
-{
-    type: 'p'
-    text: 'Some bold and italic text',
-    length: 25,
-    markups: [{
-        type: Serialize.types.bold,
-        start: 5,
-        end: 9
-    }, {
-        type: Serialize.types.italic,
-        start: 14,
-        end: 20
-    }]
-}
-```
+Applies the given markup to the `Serialize` instance. Overlapping or adjacent markups of the same type are merged together. When adding a link, existing links are truncated or removed so that no two links overlap.
 
-Where `Serialize.types.*` is a number. Currently, only `code`, `link`, `bold`, and `italic` types are supported. If you need to support a broader range of markups, adding support is trivial.
+#### Serialize#removeMarkup( markup )
 
-__Note__: Serialize use getters and setters to automagically update the `length` property of a serialization when its text is changed; in most cases, there should be no reason to set the length of a serialization.
+Removes or truncates the instance's markups so that no markups of the same type as `markup` overlap the range of `markup`.
 
-### Serialize#addMarkup( markup )
+_Note_: when removing a link type, the `href` is ignored.
 
-Adds the given markup to the serialization. Markups are ordered first by type, then by start index. If identical markups would overlap, they are merged into one. If adding a link, existing links will be truncated or removed so as to avoid overlapping with the link being added.
+#### Serialize#substr( start [, length] )
 
-Returns the context to allow chaining.
+Returns the part of a `Serialize` instance between the start index and a number of characters after it, with markups.
 
-### Serialize#addMarkups( markups )
+Analogous to [`String#substr`][substr].
 
-As above, but with an array of markups.
+#### Serialize#substring( start [, end] )
 
-### Serialize#removeMarkup( markup )
+Returns the part of a `Serialize` instance between the start and end indexes (or to the end of the text), with markups.
 
-Removes or truncates a serialization’s markups such that no markups of the same type as the given markup overlap the given markup’s range.
+Analogous to [`String#substring`][substring].
 
-__Note__: for the link type, this method does not check the `href`.
+#### Serialize#replace( pattern, replacement )
 
-### Serialize#substr( start [, length] )
+Returns a new `Serialize` object with some or all matches of `pattern` replaced by `replacement`. If a match partially overlaps a markup, that markup is truncated so as to not overlap the match.
 
-Works the same as [`String#substr`][substr]. Returns a new serialization representing the duplicated substring, complete with the appropriate markups.
+Analogous to [`String#replace`][replace]. Has the same signature as `String#replace`; that is, `pattern` can be a string or RegExp, and `replacement` can be a string or function. See the [`String#replace` documentation][replace] for more details.
 
-### Serialize#substring( start [, end] )
+#### Serialize#append( other )
 
-Like [`String#substring`][substring]. Returns a new serialization.
+Returns a new `Serialize` object resulting from appending the serialization `other` to the instance. Similar to the `+` operator for strings.
 
-### Serialize#replace( pattern, substr )
+#### Serialize#equals( other )
 
-Works like [`String#replace`][replace] on the serialization’s text, but updates the markups appropriately. Same signature as [`String#replace`][replace]. Returns a new serialization.
+Returns true if the serializations are equivalent, i.e. they would produce identical elements. Otherwise, returns false. Similar to the `==` operator for strings.
 
-If a match overlaps a markup, that markup is truncated so as to make it smaller. Consider the following element:
+#### Serialize#toElement( )
 
-```html
-<p>One..<em>. two</em></p>
-```
-
-This gets serialized as:
+Returns a DOM element corresponding to the `Serialize` instance. When converting to an element, overlapping markups are applied in order of ascending `type` value, i.e. the markup with the lowest type value will be the outermost markup in the returned element. For example:
 
 ```js
-{
-    type: 'p',
-    text: 'One... two',
-    length: 10,
-    markups: [{
-        type: Serialize.types.italic,
-        start: 5,
-        end: 10
-    }]
-}
+let s = Serialize.fromText('Example', 'p')
+s.addMarkup({
+  type: Serialize.types.code, // 2
+  start: 0,
+  end: 5
+})
+s.addMarkup({
+  type: Serialize.types.italic, // 4
+  start: 2,
+  end: 7
+})
+s.toElement()
+// <p><code>Ex<em>amp</em></code><em>le</em></p>
 ```
 
-Replacing adjacent periods with ellipses by calling
+This ordering ensures consistent results when converting to an element.
 
-```js
-.replace(/\.\.\./, '…')
-```
+_Note_: the `link` type currently has the lowest value, meaning that if it overlaps any other markups it will always be the outermost markup. This prevents a single "logical" link from being converted into multiple links in the DOM.
 
-on this serialization results in the following:
+#### Serialize#toString( )
 
-```js
-{
-    type: 'p',
-    text: 'One… two',
-    length: 8,
-    markups: [{
-        type: Serialize.types.italic,
-        start: 4,
-        end: 8
-    }]
-}
-```
+Returns the outerHTML of the element corresponding to the `Serialize` instance.
 
-which, when converted back to en element, will look like:
+#### Serialize.fromText( text [, tag] )
 
-```html
-<p>One…<em> two</em></p>
-```
+Creates a serialization with the given `text`. The serialization will have no markups. The `type` property of the returned instance can be specified using the `tag` argument, defaulting to `p`.
 
-### Serialize#append( other )
+#### Serialize.fromJSON( json )
 
-Returns a new serialization which results from appending the serialization `other` to the current serialization. This is similar to how the addition operator works on strings.
+Creates a Serialize object from a JSON string representing a stringified Serialize object.
 
-If `other` is a string, the returned serialization will have that string appended to its text, and any markups that previously terminated at the end of the serialization are extended such that they terminate at the end of the new serialization. For example:
+#### Serialize.types
 
-```html
-<p><em>1</em><strong>2</strong></p>
-<!-- Serializing, then calling .append('345'), results in: -->
-<p><em>1</em><strong>2345</strong></p>
-```
+A dictionary of numeric constants corresponding to markup types. Currently supported markup types are `link`, `code`, `bold`, and `italic`.
 
-If you wish to avoid extending markups, simply add your text directly to the serialization’s.
-
-### Serialize#equals( other )
-
-Returns a boolean; true if the serializations are equivalent (i.e. they would produce identical elements by calling [`Serialize#toElement`][toElement]), false otherwise. Continuing the comparison to Strings, `Serialize#equals` is like the equality operator.
-
-### Serialize#toElement( )
-
-Return a new element resembling the one that was serialized. See [below][types] for a description of how markups are applied when converting serializations back to elements.
-
-### Serialize#toString( )
-
-This overrides the inherited `toString` to return the outerHTML of the Serialization’s equivalent element. For example:
-
-```js
-var p = document.createElement('p')
-p.innerHTML = 'A <em>B</em> C'
-
-var s = new Serialize(p)
-console.log('' + s)
-// "<p>A <em>B</em> C</p>"
-```
-
-### Serialize.fromText( text [, tag] )
-
-Creates a serialization with the given String. The serialization will have no markups. The `type` property of the returned instance can optionally be specified using the `tag` argument, defaulting to `p`.
-
-### Serialize.fromJSON( json )
-
-If you have previously `JSON.stringify`’d a serialization, you can convert it to a “live” instance of Serialize by using this method.
-
-### Serialize.types
-
-An object with the numeric constants corresponding to the various markup types supported by Serialize. They are:
-
-```js
-Serialize.types = {
-  link: 1,
-  code: 2,
-  bold: 3,
-  italic: 4
-}
-```
-
-Usage of `Serialize.types.*` in your code is preferred over their numeric equivalents; doing so will not only result in clearer code, but it will make your code future-proof should these numbers ever change.
-
-When converting serializations into DOM elements, markups are applied in order of ascending type; markups with a lower type are prioritized over those with a higher type. For example, consider the following element:
-
-```html
-<p><strong><a href="/foo">Some</a></strong><a href="/foo"> text</a></p>
-```
-
-Serializing, then deserializing this element will merge the identical, adjacent links, resulting in:
-
-```html
-<p><a href="/foo"><strong>Some</strong> text</a></p>
-```
+See [Serialize#toElement](#serializetoelement-) for a description of how these constants relate to element conversion.
 
 ## License
 
 [MIT][license]
 
-[medium]: https://medium.com/medium-eng/why-contenteditable-is-terrible-122d8a40e480
 [replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
-[substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+[substr]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr
 [substring]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/substring
-[toElement]: #serializationtoelement-
-[types]: #serializetypes
 [license]: https://github.com/lucthev/serialize/blob/master/LICENSE
+[using npm]: https://docs.npmjs.com/getting-started/installing-npm-packages-locally
